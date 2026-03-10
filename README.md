@@ -130,3 +130,22 @@ npm run dev
 - Add cron-based missed-task processing instead of request-time sync.
 - Add optimistic updates, toast notifications, and pagination.
 - Add automated tests for auth, tasks, and analytics.
+
+## Deploy on Render
+
+This repo includes a Render Blueprint in `render.yaml`.
+
+One-click Render setup:
+
+- Create a Blueprint from this repo:
+  `https://render.com/deploy?repo=https://github.com/Munalthapa710/dailytrack.git`
+
+What it creates:
+
+- One free Node web service
+- One free Render Postgres database
+
+Important Render free limits:
+
+- Free web services spin down after 15 minutes idle
+- Free Render Postgres expires after 30 days
