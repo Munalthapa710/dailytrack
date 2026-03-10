@@ -2,6 +2,8 @@
 
 DailyRoutine is a production-style full-stack daily work planner built with Next.js, TypeScript, Prisma, JWT cookie auth, Tailwind CSS, and Recharts. It supports secure authentication, user-scoped task CRUD, a separate daily checklist page, auto-missed task handling, responsive task management, and weekly/monthly/yearly analytics.
 
+Live Demo: https://dailytrack-web.onrender.com/login
+
 ## 1. Final stack
 
 - Frontend: Next.js App Router + React 19 + TypeScript + Tailwind CSS
