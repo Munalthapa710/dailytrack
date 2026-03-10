@@ -19,6 +19,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid email or password." }, { status: 401 });
     }
 
+    if (!user.emailVerified) {
+      return NextResponse.json({ error: "Verify your email before signing in." }, { status: 403 });
+    }
+
     const matches = await comparePassword(data.password, user.passwordHash);
     if (!matches) {
       return NextResponse.json({ error: "Invalid email or password." }, { status: 401 });

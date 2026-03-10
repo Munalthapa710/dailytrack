@@ -41,8 +41,13 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
       return;
     }
 
-    showToast(mode === "login" ? "Signed in successfully." : "Account created successfully.", "success");
-    router.push("/dashboard");
+    showToast(
+      mode === "login"
+        ? "Signed in successfully."
+        : "Account created. Check your email and verify your account before login.",
+      "success"
+    );
+    router.push(mode === "login" ? "/dashboard" : "/login");
     router.refresh();
   }
 

@@ -10,6 +10,7 @@ Live Demo: https://dailytrack-web.onrender.com/login
 - Backend: Next.js Route Handlers for REST-style APIs
 - Database: SQLite for local development with Prisma ORM
 - Auth: JWT stored in secure HTTP-only cookies + bcrypt password hashing
+- Email: SMTP verification email before first login
 - Charts: Recharts
 
 ### Why this stack
@@ -57,6 +58,7 @@ Key behavior:
 
 - Every protected query is scoped to the authenticated user.
 - Passwords are hashed with `bcryptjs`.
+- New users must verify their email before they can sign in.
 - Missed tasks are auto-updated on task and analytics reads.
 - Validation is handled with Zod before writes.
 
@@ -108,7 +110,7 @@ npm install
 Copy-Item .env.example .env
 ```
 
-3. Update `.env` with your JWT secret. The default SQLite database path works locally.
+3. Update `.env` with your JWT secret and SMTP credentials.
 
 4. Generate Prisma client and run migrations:
 
