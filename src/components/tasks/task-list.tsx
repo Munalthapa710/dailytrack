@@ -6,22 +6,24 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { TaskFormDialog } from "@/components/tasks/task-form-dialog";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast-provider";
 
 export function TaskList({ tasks }: { tasks: Task[] }) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
-  const [actionError, setActionError] = useState("");
+  const { showToast } = useToast();
 
   async function deleteTask(taskId: string) {
     setBusyId(taskId);
-    setActionError("");
     const response = await fetch(`/api/tasks/${taskId}`, {
       method: "DELETE"
     });
 
     if (!response.ok) {
       const payload = await response.json();
-      setActionError(payload.error ?? "Unable to delete task.");
+      showToast(payload.error ?? "Unable to delete task.");
+    } else {
+      showToast("Task deleted successfully.", "success");
     }
 
     setBusyId(null);
@@ -30,7 +32,6 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
 
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-      {actionError ? <div className="border-b border-danger/20 bg-danger/5 px-6 py-4 text-sm text-danger">{actionError}</div> : null}
       <div className="hidden grid-cols-[1.5fr_0.85fr_0.55fr_0.55fr_0.8fr_1fr] gap-4 border-b border-slate-200/70 px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 sm:grid">
         <span>Task</span>
         <span>Date</span>

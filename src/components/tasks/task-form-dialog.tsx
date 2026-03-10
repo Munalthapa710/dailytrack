@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/toast-provider";
 
 interface TaskFormValues {
   title: string;
@@ -24,7 +25,7 @@ interface TaskFormDialogProps {
 export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [serverError, setServerError] = useState("");
+  const { showToast } = useToast();
   const {
     register,
     handleSubmit,
@@ -38,8 +39,6 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
   });
 
   async function onSubmit(values: TaskFormValues) {
-    setServerError("");
-
     const response = await fetch(mode === "create" ? "/api/tasks" : `/api/tasks/${initialValues?.id}`, {
       method: mode === "create" ? "POST" : "PATCH",
       headers: {
@@ -50,10 +49,11 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
 
     const payload = await response.json();
     if (!response.ok) {
-      setServerError(payload.error ?? "Unable to save task.");
+      showToast(payload.error ?? "Unable to save task.");
       return;
     }
 
+    showToast(mode === "create" ? "Task created successfully." : "Task updated successfully.", "success");
     setOpen(false);
     reset();
     router.refresh();
@@ -113,7 +113,6 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
                   <span className="block text-xs text-slate-500">Resets to pending on the next day</span>
                 </span>
               </label>
-              {serverError ? <p className="rounded-2xl border border-danger/20 bg-danger/8 px-4 py-3 text-sm text-danger">{serverError}</p> : null}
               <div className="flex justify-end gap-3">
                 <Button variant="ghost" type="button" onClick={() => setOpen(false)}>
                   Cancel

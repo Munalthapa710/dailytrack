@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/toast-provider";
 
 type AuthMode = "login" | "register";
 
@@ -17,8 +18,8 @@ interface AuthFormValues {
 
 export function AuthForm({ mode }: { mode: AuthMode }) {
   const router = useRouter();
-  const [serverError, setServerError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { showToast } = useToast();
   const {
     register,
     handleSubmit,
@@ -26,8 +27,6 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
   } = useForm<AuthFormValues>();
 
   async function onSubmit(values: AuthFormValues) {
-    setServerError("");
-
     const response = await fetch(`/api/auth/${mode}`, {
       method: "POST",
       headers: {
@@ -38,10 +37,11 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
 
     const payload = await response.json();
     if (!response.ok) {
-      setServerError(payload.error ?? "Something went wrong.");
+      showToast(payload.error ?? "Something went wrong.");
       return;
     }
 
+    showToast(mode === "login" ? "Signed in successfully." : "Account created successfully.", "success");
     router.push("/dashboard");
     router.refresh();
   }
@@ -83,7 +83,6 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         </div>
         {errors.password ? <p className="rounded-xl bg-danger/8 px-3 py-2 text-sm text-danger">{errors.password.message}</p> : null}
       </div>
-      {serverError ? <p className="rounded-2xl border border-danger/20 bg-danger/8 px-4 py-3 text-sm text-danger">{serverError}</p> : null}
       <Button className="h-12 w-full text-sm" type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Please wait..." : mode === "login" ? "Sign in" : "Create account"}
       </Button>

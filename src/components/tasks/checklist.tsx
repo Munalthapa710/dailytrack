@@ -4,15 +4,15 @@ import type { Task } from "@prisma/client";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useToast } from "@/components/ui/toast-provider";
 
 export function Checklist({ tasks }: { tasks: Task[] }) {
   const router = useRouter();
   const [busyId, setBusyId] = useState<string | null>(null);
-  const [actionError, setActionError] = useState("");
+  const { showToast } = useToast();
 
   async function updateStatus(task: Task, checked: boolean) {
     setBusyId(task.id);
-    setActionError("");
 
     const response = await fetch(`/api/tasks/${task.id}`, {
       method: "PATCH",
@@ -26,7 +26,9 @@ export function Checklist({ tasks }: { tasks: Task[] }) {
 
     if (!response.ok) {
       const payload = await response.json();
-      setActionError(payload.error ?? "Unable to update checklist item.");
+      showToast(payload.error ?? "Unable to update checklist item.");
+    } else {
+      showToast(checked ? "Task marked as completed." : "Task marked as pending.", "success");
     }
 
     setBusyId(null);
@@ -35,7 +37,6 @@ export function Checklist({ tasks }: { tasks: Task[] }) {
 
   return (
     <div className="space-y-4">
-      {actionError ? <div className="rounded-2xl border border-danger/20 bg-danger/5 px-4 py-3 text-sm text-danger">{actionError}</div> : null}
       {tasks.map((task) => (
         <div
           key={task.id}
