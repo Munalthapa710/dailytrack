@@ -143,9 +143,12 @@ One-click Render setup:
 What it creates:
 
 - One free Node web service
-- One free Render Postgres database
 
 Important Render free limits:
 
 - Free web services spin down after 15 minutes idle
-- Free Render Postgres expires after 30 days
+
+Database setup for free deployment:
+
+- Use a free external Postgres database such as Neon
+- In Render, add `DATABASE_URL` manually to the `dailytrack-web` service before the first successful deploy
