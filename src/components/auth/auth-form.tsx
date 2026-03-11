@@ -44,7 +44,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
     showToast(
       mode === "login"
         ? "Signed in successfully."
-        : "Account created. Check your email and verify your account before login.",
+        : "Account created. You can now sign in.",
       "success"
     );
     router.push(mode === "login" ? "/dashboard" : "/login");
