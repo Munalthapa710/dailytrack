@@ -36,16 +36,21 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
   const [open, setOpen] = useState(false);
   const [conflicts, setConflicts] = useState<TaskConflict[]>([]);
   const { showToast } = useToast();
+  const baseValues: TaskFormValues = {
+    title: "",
+    description: "",
+    startTime: "",
+    endTime: "",
+    isDaily: false,
+    ...initialValues
+  };
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting }
   } = useForm<TaskFormValues>({
-    defaultValues: {
-      isDaily: false,
-      ...initialValues
-    }
+    defaultValues: baseValues
   });
 
   async function onSubmit(values: TaskFormValues) {
@@ -80,6 +85,7 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
         variant={mode === "create" ? "primary" : "ghost"}
         onClick={() => {
           setConflicts([]);
+          reset(baseValues);
           setOpen(true);
         }}
         type="button"
@@ -94,7 +100,14 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Task editor</p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-tight text-ink">{mode === "create" ? "Create task" : "Edit task"}</h3>
               </div>
-              <button className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-500 transition hover:bg-slate-200" onClick={() => setOpen(false)} type="button">
+              <button
+                className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-500 transition hover:bg-slate-200"
+                onClick={() => {
+                  setConflicts([]);
+                  setOpen(false);
+                }}
+                type="button"
+              >
                 Close
               </button>
             </div>
@@ -145,7 +158,14 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
                 </span>
               </label>
               <div className="flex justify-end gap-3">
-                <Button variant="ghost" type="button" onClick={() => setOpen(false)}>
+                <Button
+                  variant="ghost"
+                  type="button"
+                  onClick={() => {
+                    setConflicts([]);
+                    setOpen(false);
+                  }}
+                >
                   Cancel
                 </Button>
                 <Button className="min-w-[148px]" type="submit" disabled={isSubmitting}>
