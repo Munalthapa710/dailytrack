@@ -10,14 +10,14 @@ Live Demo: https://dailytrack-web.onrender.com/login
 - Backend: Next.js Route Handlers for REST-style APIs
 - Database: SQLite for local development with Prisma ORM
 - Auth: JWT stored in secure HTTP-only cookies + bcrypt password hashing
-- Email: SMTP verification email before first login
+- Email: Resend HTTP API verification email before first login
 - Charts: Recharts
 
 ### Why this stack
 
 - A single Next.js codebase keeps UI, API routes, auth, and server rendering tightly aligned.
 - Prisma adds a clear schema, migrations, and type-safe data access that scales better than handwritten SQL for this app size.
-- SQLite removes local setup friction for development, while Prisma keeps the schema portable if you later move to PostgreSQL.
+- PostgreSQL keeps local and deployed environments aligned while Prisma provides type-safe data access.
 - JWT cookies provide stateless auth while keeping tokens out of local storage.
 
 ## 2. Folder structure
@@ -110,7 +110,7 @@ npm install
 Copy-Item .env.example .env
 ```
 
-3. Update `.env` with your JWT secret and SMTP credentials.
+3. Update `.env` with your JWT secret and Resend credentials.
 
 4. Generate Prisma client and run migrations:
 
@@ -156,3 +156,4 @@ Database setup for free deployment:
 
 - Use a free external Postgres database such as Neon
 - In Render, add `DATABASE_URL` manually to the `dailytrack-web` service before the first successful deploy
+- For email verification on Render free, use `RESEND_API_KEY` and `EMAIL_FROM` instead of SMTP

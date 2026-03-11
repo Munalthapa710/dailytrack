@@ -1,32 +1,15 @@
 import crypto from "crypto";
-import nodemailer from "nodemailer";
 
 function getBaseUrl() {
   return process.env.APP_URL || "http://localhost:3000";
 }
 
-function getTransport() {
-  const host = process.env.SMTP_HOST;
-  const port = process.env.SMTP_PORT;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+function getResendApiKey() {
+  return process.env.RESEND_API_KEY || null;
+}
 
-  if (!host || !port || !user || !pass) {
-    return null;
-  }
-
-  return nodemailer.createTransport({
-    host,
-    port: Number(port),
-    secure: Number(port) === 465,
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-    auth: {
-      user,
-      pass
-    }
-  });
+function getEmailFrom() {
+  return process.env.EMAIL_FROM || null;
 }
 
 export function createEmailVerificationToken() {
@@ -54,20 +37,25 @@ export async function sendVerificationEmail({
   token: string;
 }) {
   const verificationUrl = `${getBaseUrl()}/verify-email?token=${token}`;
-  const transport = getTransport();
+  const resendApiKey = getResendApiKey();
 
-  if (!transport) {
-    console.info(`Email transport not configured. Verification link for ${email}: ${verificationUrl}`);
+  if (!resendApiKey) {
+    console.info(`Resend not configured. Verification link for ${email}: ${verificationUrl}`);
     return;
   }
 
-  const from = process.env.EMAIL_FROM || process.env.SMTP_USER;
+  const from = getEmailFrom();
   if (!from) {
-    throw new Error("EMAIL_FROM or SMTP_USER must be configured.");
+    throw new Error("EMAIL_FROM must be configured.");
   }
 
-  await Promise.race([
-    transport.sendMail({
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
       from,
       to: email,
       subject: "Verify your DailyRoutine account",
@@ -86,10 +74,11 @@ export async function sendVerificationEmail({
         </div>
       `
     }),
-    new Promise<never>((_, reject) => {
-      setTimeout(() => {
-        reject(new Error("Verification email timed out. Check your SMTP configuration."));
-      }, 10000);
-    })
-  ]);
+    signal: AbortSignal.timeout(10000)
+  });
+
+  if (!response.ok) {
+    const payload = (await response.text()) || "Unknown email provider error.";
+    throw new Error(`Verification email failed: ${payload}`);
+  }
 }
