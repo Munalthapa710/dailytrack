@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { startOfDay } from "date-fns";
 import { getCurrentUser } from "@/lib/auth";
 import { withDbTimeout } from "@/lib/db-guard";
 import { findTaskConflictsForUser, getTasksForUser, normalizeTaskStatus, parseTaskDate } from "@/lib/task-service";
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
     }
     const json = await request.json();
     const data = taskSchema.parse(json);
-    const parsedDate = parseTaskDate(data.date);
+    const parsedDate = data.date ? parseTaskDate(data.date) : startOfDay(new Date());
     const conflicts = await findTaskConflictsForUser({
       userId: user.id,
       date: parsedDate,

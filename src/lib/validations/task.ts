@@ -3,7 +3,7 @@ import { z } from "zod";
 const baseTaskSchema = z.object({
   title: z.string().min(1, "Title is required.").max(120, "Title is too long."),
   description: z.string().max(1000, "Description is too long.").optional().or(z.literal("")),
-  date: z.string().min(1, "Date is required."),
+  date: z.string().optional().or(z.literal("")),
   startTime: z.string().min(1, "Start time is required."),
   endTime: z.string().min(1, "End time is required."),
   isDaily: z.boolean().optional(),

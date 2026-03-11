@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { startOfDay } from "date-fns";
 import { getCurrentUser } from "@/lib/auth";
 import { withDbTimeout } from "@/lib/db-guard";
 import { findTaskConflictsForUser, normalizeTaskStatus, parseTaskDate } from "@/lib/task-service";
@@ -31,7 +32,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ ta
 
     const json = await request.json();
     const data = taskUpdateSchema.parse(json);
-    const nextDate = data.date ? parseTaskDate(data.date) : existingTask.date;
+    const nextDate = data.date === "" ? startOfDay(new Date()) : data.date ? parseTaskDate(data.date) : existingTask.date;
     const nextStartTime = data.startTime ?? existingTask.startTime;
     const nextEndTime = data.endTime ?? existingTask.endTime;
 
@@ -75,7 +76,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ ta
         data: {
           ...(data.title ? { title: data.title } : {}),
           ...(data.description !== undefined ? { description: data.description || null } : {}),
-          ...(data.date ? { date: nextDate } : {}),
+          ...(data.date !== undefined ? { date: nextDate } : {}),
           ...(data.startTime ? { startTime: data.startTime } : {}),
           ...(data.endTime ? { endTime: data.endTime } : {}),
           ...(data.isDaily !== undefined ? { isDaily: data.isDaily } : {}),

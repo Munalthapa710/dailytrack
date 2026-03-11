@@ -12,7 +12,7 @@ import { useToast } from "@/components/ui/toast-provider";
 interface TaskFormValues {
   title: string;
   description?: string;
-  date: string;
+  date?: string;
   startTime: string;
   endTime: string;
   isDaily: boolean;
@@ -44,6 +44,7 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
     formState: { errors, isSubmitting }
   } = useForm<TaskFormValues>({
     defaultValues: {
+      date: "",
       isDaily: false,
       ...initialValues
     }
@@ -129,8 +130,12 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
                 </div>
                 <div className="grid gap-4 sm:grid-cols-3">
                   <div className="space-y-2">
-                    <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Date</label>
-                    <Input className="h-12" type="date" {...register("date", { required: "Date is required." })} />
+                    <div className="flex items-center justify-between gap-3">
+                      <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Date</label>
+                      <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-slate-400">Optional</span>
+                    </div>
+                    <Input className="h-12" type="date" {...register("date")} />
+                    <p className="text-xs text-slate-500">Leave blank to use today.</p>
                   </div>
                   <div className="space-y-2">
                     <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Start time</label>
