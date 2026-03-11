@@ -5,8 +5,8 @@ services:
     plan: free
     region: oregon
     autoDeploy: true
-    buildCommand: npm ci --include=dev && npx prisma generate && npm run build
-    startCommand: npx prisma db push && npm run start
+    buildCommand: npm ci --include=dev && npx prisma generate && npx prisma db push && npm run build
+    startCommand: npm run start
     healthCheckPath: /login
     envVars:
       - key: NODE_VERSION
