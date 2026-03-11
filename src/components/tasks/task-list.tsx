@@ -66,7 +66,6 @@ export function TaskList({ tasks }: { tasks: Task[] }) {
                   id: task.id,
                   title: task.title,
                   description: task.description ?? "",
-                  date: format(task.date, "yyyy-MM-dd"),
                   startTime: task.startTime,
                   endTime: task.endTime,
                   isDaily: task.isDaily
