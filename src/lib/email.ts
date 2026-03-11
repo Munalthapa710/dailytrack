@@ -19,6 +19,9 @@ function getTransport() {
     host,
     port: Number(port),
     secure: Number(port) === 465,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
     auth: {
       user,
       pass
@@ -63,23 +66,30 @@ export async function sendVerificationEmail({
     throw new Error("EMAIL_FROM or SMTP_USER must be configured.");
   }
 
-  await transport.sendMail({
-    from,
-    to: email,
-    subject: "Verify your DailyRoutine account",
-    html: `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827;">
-        <h2>Verify your email</h2>
-        <p>Hello ${name},</p>
-        <p>Confirm your email address to activate your DailyRoutine account.</p>
-        <p>
-          <a href="${verificationUrl}" style="display:inline-block;padding:12px 18px;background:#111827;color:#ffffff;text-decoration:none;border-radius:8px;">
-            Verify email
-          </a>
-        </p>
-        <p>If the button does not work, open this link:</p>
-        <p>${verificationUrl}</p>
-      </div>
-    `
-  });
+  await Promise.race([
+    transport.sendMail({
+      from,
+      to: email,
+      subject: "Verify your DailyRoutine account",
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827;">
+          <h2>Verify your email</h2>
+          <p>Hello ${name},</p>
+          <p>Confirm your email address to activate your DailyRoutine account.</p>
+          <p>
+            <a href="${verificationUrl}" style="display:inline-block;padding:12px 18px;background:#111827;color:#ffffff;text-decoration:none;border-radius:8px;">
+              Verify email
+            </a>
+          </p>
+          <p>If the button does not work, open this link:</p>
+          <p>${verificationUrl}</p>
+        </div>
+      `
+    }),
+    new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        reject(new Error("Verification email timed out. Check your SMTP configuration."));
+      }, 10000);
+    })
+  ]);
 }
