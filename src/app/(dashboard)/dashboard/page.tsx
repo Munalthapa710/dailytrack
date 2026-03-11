@@ -1,18 +1,16 @@
 import { AnalyticsCharts } from "@/components/dashboard/analytics-charts";
+import { DailyFocusPanel } from "@/components/dashboard/daily-focus-panel";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { requireUser } from "@/lib/auth";
-import { getAnalyticsForUser } from "@/lib/task-service";
+import { getAnalyticsForUser, getDailyBriefingForUser } from "@/lib/task-service";
 
 export default async function DashboardPage() {
   const user = await requireUser();
-  const analytics = await getAnalyticsForUser(user.id);
+  const [analytics, briefing] = await Promise.all([getAnalyticsForUser(user.id), getDailyBriefingForUser(user.id)]);
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border border-slate-200 bg-white px-6 py-6 shadow-sm">
-        <p className="text-sm font-medium text-slate-500">Overview</p>
-        <h2 className="mt-2 text-3xl font-semibold text-ink">Performance dashboard</h2>
-      </section>
+      <DailyFocusPanel briefing={briefing} />
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <StatCard label="Total tasks" value={analytics.summary.total} />

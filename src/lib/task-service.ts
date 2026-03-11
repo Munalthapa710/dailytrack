@@ -13,13 +13,19 @@ import {
 } from "date-fns";
 import { withDbTimeout } from "@/lib/db-guard";
 import { prisma } from "@/lib/prisma";
-import { FilterKey } from "@/types";
+import { DailyBriefing, DailyBriefingItem, FilterKey } from "@/types";
 
 function composeTaskDateTime(date: Date, time: string) {
   const [hours, minutes] = time.split(":").map(Number);
   const value = new Date(date);
   value.setHours(hours, minutes, 0, 0);
   return value;
+}
+
+function getMinutesBetween(startTime: string, endTime: string) {
+  const [startHours, startMinutes] = startTime.split(":").map(Number);
+  const [endHours, endMinutes] = endTime.split(":").map(Number);
+  return Math.max((endHours * 60 + endMinutes) - (startHours * 60 + startMinutes), 0);
 }
 
 function isTaskMissed(task: Pick<Task, "date" | "endTime" | "status">, now: Date) {
@@ -149,6 +155,76 @@ export async function getChecklistTasksForUser(userId: string) {
       orderBy: [{ status: "asc" }, { startTime: "asc" }]
     })
   );
+}
+
+export async function getDailyBriefingForUser(userId: string): Promise<DailyBriefing> {
+  const tasks = await getChecklistTasksForUser(userId);
+  const now = new Date();
+
+  const items: DailyBriefingItem[] = tasks.map((task) => {
+    const start = composeTaskDateTime(task.date, task.startTime);
+    const end = composeTaskDateTime(task.date, task.endTime);
+    const status = normalizeTaskStatus(task);
+
+    let phase: DailyBriefingItem["phase"] = "later";
+    if (status === "completed") {
+      phase = "done";
+    } else if (status === "missed") {
+      phase = "missed";
+    } else if (start <= now && now <= end) {
+      phase = "now";
+    } else if (start > now) {
+      phase = "later";
+    }
+
+    return {
+      id: task.id,
+      title: task.title,
+      description: task.description ?? null,
+      startTime: task.startTime,
+      endTime: task.endTime,
+      status,
+      isDaily: task.isDaily,
+      phase
+    };
+  });
+
+  const currentTask = items.find((item) => item.phase === "now") ?? null;
+  const nextTask =
+    currentTask ??
+    items.find((item) => item.phase === "later" && item.status === "pending") ??
+    null;
+
+  const itemsWithNext: DailyBriefingItem[] = items.map((item) => {
+    if (!currentTask && nextTask && item.id === nextTask.id && item.phase === "later") {
+      return { ...item, phase: "up-next" };
+    }
+
+    return item;
+  });
+
+  const totalTasks = items.length;
+  const completedTasks = items.filter((item) => item.status === "completed").length;
+  const pendingTasks = items.filter((item) => item.status === "pending").length;
+  const missedTasks = items.filter((item) => item.status === "missed").length;
+  const scheduledMinutes = tasks.reduce((sum, task) => sum + getMinutesBetween(task.startTime, task.endTime), 0);
+  const completedMinutes = tasks
+    .filter((task) => normalizeTaskStatus(task) === "completed")
+    .reduce((sum, task) => sum + getMinutesBetween(task.startTime, task.endTime), 0);
+
+  return {
+    dateLabel: format(now, "EEEE, MMMM d"),
+    totalTasks,
+    completedTasks,
+    pendingTasks,
+    missedTasks,
+    completionRate: totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100),
+    scheduledMinutes,
+    completedMinutes,
+    currentTask,
+    nextTask: currentTask ? currentTask : nextTask,
+    items: itemsWithNext
+  };
 }
 
 function countStatuses(tasks: Task[]) {
