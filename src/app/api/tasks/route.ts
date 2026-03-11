@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { withDbTimeout } from "@/lib/db-guard";
-import { getTasksForUser, normalizeTaskStatus, parseTaskDate } from "@/lib/task-service";
+import { findTaskConflictsForUser, getTasksForUser, normalizeTaskStatus, parseTaskDate } from "@/lib/task-service";
 import { prisma } from "@/lib/prisma";
 import { taskSchema } from "@/lib/validations/task";
 import { FilterKey } from "@/types";
@@ -26,6 +26,23 @@ export async function POST(request: Request) {
     const json = await request.json();
     const data = taskSchema.parse(json);
     const parsedDate = parseTaskDate(data.date);
+    const conflicts = await findTaskConflictsForUser({
+      userId: user.id,
+      date: parsedDate,
+      startTime: data.startTime,
+      endTime: data.endTime
+    });
+
+    if (conflicts.length > 0) {
+      return NextResponse.json(
+        {
+          error: "This time overlaps with another task.",
+          conflicts
+        },
+        { status: 409 }
+      );
+    }
+
     const status =
       data.status && data.status !== "missed"
         ? data.status

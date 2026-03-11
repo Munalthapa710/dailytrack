@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { withDbTimeout } from "@/lib/db-guard";
-import { normalizeTaskStatus, parseTaskDate } from "@/lib/task-service";
+import { findTaskConflictsForUser, normalizeTaskStatus, parseTaskDate } from "@/lib/task-service";
 import { prisma } from "@/lib/prisma";
 import { taskUpdateSchema } from "@/lib/validations/task";
 
@@ -37,6 +37,26 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ ta
 
     if (nextStartTime >= nextEndTime) {
       return NextResponse.json({ error: "End time must be later than start time." }, { status: 400 });
+    }
+
+    if (data.date || data.startTime || data.endTime) {
+      const conflicts = await findTaskConflictsForUser({
+        userId: user.id,
+        date: nextDate,
+        startTime: nextStartTime,
+        endTime: nextEndTime,
+        excludeTaskId: taskId
+      });
+
+      if (conflicts.length > 0) {
+        return NextResponse.json(
+          {
+            error: "This time overlaps with another task.",
+            conflicts
+          },
+          { status: 409 }
+        );
+      }
     }
 
     const requestedStatus = data.status ?? existingTask.status;

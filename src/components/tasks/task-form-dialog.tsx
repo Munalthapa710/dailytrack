@@ -1,5 +1,6 @@
 "use client";
 
+import type { TaskStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,6 +18,15 @@ interface TaskFormValues {
   isDaily: boolean;
 }
 
+interface TaskConflict {
+  id: string;
+  title: string;
+  startTime: string;
+  endTime: string;
+  status: TaskStatus;
+  isDaily: boolean;
+}
+
 interface TaskFormDialogProps {
   mode: "create" | "edit";
   initialValues?: Partial<TaskFormValues> & { id?: string };
@@ -25,6 +35,7 @@ interface TaskFormDialogProps {
 export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [conflicts, setConflicts] = useState<TaskConflict[]>([]);
   const { showToast } = useToast();
   const {
     register,
@@ -39,6 +50,7 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
   });
 
   async function onSubmit(values: TaskFormValues) {
+    setConflicts([]);
     const response = await fetch(mode === "create" ? "/api/tasks" : `/api/tasks/${initialValues?.id}`, {
       method: mode === "create" ? "POST" : "PATCH",
       headers: {
@@ -49,19 +61,30 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
 
     const payload = await response.json();
     if (!response.ok) {
+      if (response.status === 409 && Array.isArray(payload.conflicts)) {
+        setConflicts(payload.conflicts);
+      }
       showToast(payload.error ?? "Unable to save task.");
       return;
     }
 
     showToast(mode === "create" ? "Task created successfully." : "Task updated successfully.", "success");
     setOpen(false);
+    setConflicts([]);
     reset();
     router.refresh();
   }
 
   return (
     <>
-      <Button variant={mode === "create" ? "primary" : "ghost"} onClick={() => setOpen(true)} type="button">
+      <Button
+        variant={mode === "create" ? "primary" : "ghost"}
+        onClick={() => {
+          setConflicts([]);
+          setOpen(true);
+        }}
+        type="button"
+      >
         {mode === "create" ? "Add task" : "Edit"}
       </Button>
       {open ? (
@@ -78,6 +101,19 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
             </div>
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
+              {conflicts.length > 0 ? (
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-900">
+                  <p className="font-semibold">That time slot is already occupied.</p>
+                  <div className="mt-2 space-y-1">
+                    {conflicts.map((conflict) => (
+                      <p key={conflict.id}>
+                        {conflict.startTime}-{conflict.endTime} {conflict.title}
+                        {conflict.isDaily ? " (daily)" : ""}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
               <div className="space-y-2">
                 <label className="block text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Task title</label>
                 <Input className="h-12" placeholder="Prepare client presentation" {...register("title", { required: "Title is required." })} />

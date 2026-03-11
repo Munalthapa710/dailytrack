@@ -28,6 +28,10 @@ function getMinutesBetween(startTime: string, endTime: string) {
   return Math.max((endHours * 60 + endMinutes) - (startHours * 60 + startMinutes), 0);
 }
 
+function rangesOverlap(startA: string, endA: string, startB: string, endB: string) {
+  return startA < endB && startB < endA;
+}
+
 function isTaskMissed(task: Pick<Task, "date" | "endTime" | "status">, now: Date) {
   if (task.status === "completed") {
     return false;
@@ -306,4 +310,51 @@ export function normalizeTaskStatus(task: Pick<Task, "date" | "endTime" | "statu
 
 export function parseTaskDate(date: string) {
   return parseISO(date);
+}
+
+export async function findTaskConflictsForUser({
+  userId,
+  date,
+  startTime,
+  endTime,
+  excludeTaskId
+}: {
+  userId: string;
+  date: Date;
+  startTime: string;
+  endTime: string;
+  excludeTaskId?: string;
+}) {
+  const dayStart = startOfDay(date);
+  const dayEnd = addDays(dayStart, 1);
+
+  const sameDayTasks = await withDbTimeout(
+    prisma.task.findMany({
+      where: {
+        userId,
+        date: {
+          gte: dayStart,
+          lt: dayEnd
+        },
+        ...(excludeTaskId
+          ? {
+              id: {
+                not: excludeTaskId
+              }
+            }
+          : {})
+      },
+      orderBy: { startTime: "asc" },
+      select: {
+        id: true,
+        title: true,
+        startTime: true,
+        endTime: true,
+        status: true,
+        isDaily: true
+      }
+    })
+  );
+
+  return sameDayTasks.filter((task) => rangesOverlap(startTime, endTime, task.startTime, task.endTime));
 }
