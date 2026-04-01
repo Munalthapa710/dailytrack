@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/transition-link";
 import { verifyEmailToken } from "@/lib/email-verification";
 
 export default async function VerifyEmailPage({
@@ -21,9 +21,9 @@ export default async function VerifyEmailPage({
         </p>
         <h1 className="mt-3 text-3xl font-semibold text-ink">{result.message}</h1>
         <div className="mt-8">
-          <Link className="inline-flex rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white" href="/login">
+          <TransitionLink className="inline-flex rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white" href="/login">
             Go to login
-          </Link>
+          </TransitionLink>
         </div>
       </div>
     </div>

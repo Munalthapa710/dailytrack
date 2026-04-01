@@ -2,7 +2,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { FilterBar } from "@/components/tasks/filter-bar";
 import { TaskFormDialog } from "@/components/tasks/task-form-dialog";
 import { TaskList } from "@/components/tasks/task-list";
-import { requireUser } from "@/lib/auth";
+import { requireSessionUser } from "@/lib/auth";
 import { getTasksForUser } from "@/lib/task-service";
 import { FilterKey } from "@/types";
 
@@ -11,7 +11,7 @@ export default async function TasksPage({
 }: {
   searchParams: Promise<{ filter?: FilterKey }>;
 }) {
-  const user = await requireUser();
+  const user = await requireSessionUser();
   const params = await searchParams;
   const filter = params.filter ?? "all";
   const tasks = await getTasksForUser(user.id, filter);

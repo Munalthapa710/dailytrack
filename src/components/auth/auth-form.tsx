@@ -1,9 +1,9 @@
 "use client";
 
 import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigationProgress } from "@/components/navigation/navigation-provider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast-provider";
@@ -17,7 +17,7 @@ interface AuthFormValues {
 }
 
 export function AuthForm({ mode }: { mode: AuthMode }) {
-  const router = useRouter();
+  const { navigate } = useNavigationProgress();
   const [showPassword, setShowPassword] = useState(false);
   const { showToast } = useToast();
   const {
@@ -47,8 +47,7 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         : "Account created. You can now sign in.",
       "success"
     );
-    router.push(mode === "login" ? "/dashboard" : "/login");
-    router.refresh();
+    navigate(mode === "login" ? "/dashboard" : "/login", { replace: true });
   }
 
   return (

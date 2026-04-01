@@ -1,12 +1,16 @@
 import { AnalyticsCharts } from "@/components/dashboard/analytics-charts";
 import { DailyFocusPanel } from "@/components/dashboard/daily-focus-panel";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { requireUser } from "@/lib/auth";
-import { getAnalyticsForUser, getDailyBriefingForUser } from "@/lib/task-service";
+import { requireSessionUser } from "@/lib/auth";
+import { getAnalyticsForUser, getDailyBriefingForUser, syncMissedTasksForUser } from "@/lib/task-service";
 
 export default async function DashboardPage() {
-  const user = await requireUser();
-  const [analytics, briefing] = await Promise.all([getAnalyticsForUser(user.id), getDailyBriefingForUser(user.id)]);
+  const user = await requireSessionUser();
+  await syncMissedTasksForUser(user.id);
+  const [analytics, briefing] = await Promise.all([
+    getAnalyticsForUser(user.id, { skipSync: true }),
+    getDailyBriefingForUser(user.id, { skipSync: true })
+  ]);
 
   return (
     <div className="space-y-6">

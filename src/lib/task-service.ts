@@ -15,6 +15,10 @@ import { withDbTimeout } from "@/lib/db-guard";
 import { prisma } from "@/lib/prisma";
 import { DailyBriefing, DailyBriefingItem, FilterKey } from "@/types";
 
+interface TaskQueryOptions {
+  skipSync?: boolean;
+}
+
 function composeTaskDateTime(date: Date, time: string) {
   const [hours, minutes] = time.split(":").map(Number);
   const value = new Date(date);
@@ -116,8 +120,10 @@ function getFilterRange(filter: FilterKey, now: Date) {
   return null;
 }
 
-export async function getTasksForUser(userId: string, filter: FilterKey = "all") {
-  await syncMissedTasksForUser(userId);
+export async function getTasksForUser(userId: string, filter: FilterKey = "all", options: TaskQueryOptions = {}) {
+  if (!options.skipSync) {
+    await syncMissedTasksForUser(userId);
+  }
 
   const now = new Date();
   const range = getFilterRange(filter, now);
@@ -141,8 +147,10 @@ export async function getTasksForUser(userId: string, filter: FilterKey = "all")
   );
 }
 
-export async function getChecklistTasksForUser(userId: string) {
-  await syncMissedTasksForUser(userId);
+export async function getChecklistTasksForUser(userId: string, options: TaskQueryOptions = {}) {
+  if (!options.skipSync) {
+    await syncMissedTasksForUser(userId);
+  }
 
   const today = startOfDay(new Date());
   const tomorrow = addDays(today, 1);
@@ -161,8 +169,8 @@ export async function getChecklistTasksForUser(userId: string) {
   );
 }
 
-export async function getDailyBriefingForUser(userId: string): Promise<DailyBriefing> {
-  const tasks = await getChecklistTasksForUser(userId);
+export async function getDailyBriefingForUser(userId: string, options: TaskQueryOptions = {}): Promise<DailyBriefing> {
+  const tasks = await getChecklistTasksForUser(userId, options);
   const now = new Date();
 
   const items: DailyBriefingItem[] = tasks.map((task) => {
@@ -231,7 +239,7 @@ export async function getDailyBriefingForUser(userId: string): Promise<DailyBrie
   };
 }
 
-function countStatuses(tasks: Task[]) {
+function countStatuses(tasks: Array<Pick<Task, "status">>) {
   const completed = tasks.filter((task) => task.status === "completed").length;
   const pending = tasks.filter((task) => task.status === "pending").length;
   const missed = tasks.filter((task) => task.status === "missed").length;
@@ -244,13 +252,19 @@ function countStatuses(tasks: Task[]) {
   };
 }
 
-export async function getAnalyticsForUser(userId: string) {
-  await syncMissedTasksForUser(userId);
+export async function getAnalyticsForUser(userId: string, options: TaskQueryOptions = {}) {
+  if (!options.skipSync) {
+    await syncMissedTasksForUser(userId);
+  }
 
   const allTasks = await withDbTimeout(
     prisma.task.findMany({
       where: { userId },
-      orderBy: { date: "asc" }
+      orderBy: { date: "asc" },
+      select: {
+        date: true,
+        status: true
+      }
     })
   );
 

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { AuthForm } from "@/components/auth/auth-form";
+import { TransitionLink } from "@/components/navigation/transition-link";
 
 export default function RegisterPage() {
   return (
@@ -14,9 +14,9 @@ export default function RegisterPage() {
       </div>
       <p className="mt-6 text-sm text-slate-500">
         Already have an account?{" "}
-        <Link className="font-semibold text-primary" href="/login">
+        <TransitionLink className="font-semibold text-primary" href="/login">
           Sign in
-        </Link>
+        </TransitionLink>
       </p>
     </div>
   );

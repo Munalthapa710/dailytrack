@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@/app/globals.css";
+import { NavigationProvider } from "@/components/navigation/navigation-provider";
 import { ToastProvider } from "@/components/ui/toast-provider";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans"
-});
 
 export const metadata: Metadata = {
   title: "DailyRoutine",
@@ -16,8 +11,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased`}>
-        <ToastProvider>{children}</ToastProvider>
+      <body className="antialiased">
+        <NavigationProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </NavigationProvider>
       </body>
     </html>
   );

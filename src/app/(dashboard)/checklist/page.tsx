@@ -1,10 +1,10 @@
 import { Checklist } from "@/components/tasks/checklist";
 import { EmptyState } from "@/components/ui/empty-state";
-import { requireUser } from "@/lib/auth";
+import { requireSessionUser } from "@/lib/auth";
 import { getChecklistTasksForUser } from "@/lib/task-service";
 
 export default async function ChecklistPage() {
-  const user = await requireUser();
+  const user = await requireSessionUser();
   const tasks = await getChecklistTasksForUser(user.id);
 
   return (

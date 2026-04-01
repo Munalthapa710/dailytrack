@@ -8,6 +8,20 @@
   --bg-2: #f1f1ef;
 }
 
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0) scale(0.985);
+    filter: blur(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
 html {
   min-height: 100%;
   text-rendering: optimizeLegibility;
@@ -18,6 +32,7 @@ body {
   min-height: 100vh;
   background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
   color: #0b0b0f;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 * {
@@ -31,4 +46,15 @@ a {
 
 ::selection {
   background: rgba(201, 165, 76, 0.18);
+}
+
+.page-transition-enter {
+  animation: page-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition-enter {
+    animation: none;
+  }
 }

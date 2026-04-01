@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { SignJWT, jwtVerify } from "jose";
@@ -7,6 +8,12 @@ import { withDbTimeout } from "@/lib/db-guard";
 import { prisma } from "@/lib/prisma";
 import { AUTH_COOKIE } from "@/lib/constants";
 const encoder = new TextEncoder();
+
+export interface SessionUser {
+  id: string;
+  email: string;
+  name: string;
+}
 
 function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
@@ -61,7 +68,7 @@ export async function clearSessionCookie() {
   cookieStore.delete(AUTH_COOKIE);
 }
 
-export async function getCurrentUser() {
+export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
   const cookieStore = await cookies();
   const token = cookieStore.get(AUTH_COOKIE)?.value;
   if (!token) {
@@ -69,11 +76,22 @@ export async function getCurrentUser() {
   }
 
   try {
-    // API routes and server components both rely on the same verified cookie payload.
-    const payload = await verifySessionToken(token);
+    return await verifySessionToken(token);
+  } catch {
+    return null;
+  }
+});
+
+export async function getCurrentUser() {
+  const sessionUser = await getSessionUser();
+  if (!sessionUser) {
+    return null;
+  }
+
+  try {
     return await withDbTimeout(
       prisma.user.findUnique({
-        where: { id: payload.id },
+        where: { id: sessionUser.id },
         select: { id: true, name: true, email: true, createdAt: true }
       })
     );
@@ -84,6 +102,14 @@ export async function getCurrentUser() {
 
 export async function requireUser() {
   const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login");
+  }
+  return user;
+}
+
+export async function requireSessionUser() {
+  const user = await getSessionUser();
   if (!user) {
     redirect("/login");
   }

@@ -1,18 +1,26 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useNavigationProgress } from "@/components/navigation/navigation-provider";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast-provider";
 
 export function LogoutButton() {
-  const router = useRouter();
+  const { navigate } = useNavigationProgress();
   const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
 
   async function handleLogout() {
     setLoading(true);
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
-    router.refresh();
+    const response = await fetch("/api/auth/logout", { method: "POST" });
+
+    if (!response.ok) {
+      showToast("Unable to sign out right now.");
+      setLoading(false);
+      return;
+    }
+
+    navigate("/login", { replace: true });
   }
 
   return (
