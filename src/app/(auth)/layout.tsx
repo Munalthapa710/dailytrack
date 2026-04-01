@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PageTransitionShell } from "@/components/navigation/page-transition-shell";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -20,7 +21,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             />
           </div>
         </div>
-        <div className="p-6 sm:p-10 lg:p-12">{children}</div>
+        <div className="p-6 sm:p-10 lg:p-12">
+          <PageTransitionShell>{children}</PageTransitionShell>
+        </div>
       </div>
     </div>
   );
