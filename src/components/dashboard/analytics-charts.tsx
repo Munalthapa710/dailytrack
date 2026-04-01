@@ -37,7 +37,7 @@ function ChartBlock({ title, data }: { title: string; data: ChartDatum[] }) {
             />
             <Legend />
             <Bar dataKey="completed" fill="#173B42" radius={[8, 8, 0, 0]} />
-            <Bar dataKey="pending" fill="#D29A3A" radius={[8, 8, 0, 0]} />
+            <Bar dataKey="pending" fill="#7CC7EE" radius={[8, 8, 0, 0]} />
             <Bar dataKey="missed" fill="#BE5B4B" radius={[8, 8, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>

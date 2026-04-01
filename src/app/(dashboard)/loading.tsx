@@ -1,7 +1,7 @@
 export default function DashboardLoading() {
   return (
     <div className="space-y-6">
-      <div className="h-32 animate-pulse rounded-[2.25rem] bg-[linear-gradient(135deg,rgba(23,59,66,0.18),rgba(210,154,58,0.22))]" />
+      <div className="h-32 animate-pulse rounded-[2.25rem] bg-[linear-gradient(135deg,rgba(23,59,66,0.18),rgba(124,199,238,0.24))]" />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         {Array.from({ length: 5 }).map((_, index) => (
           <div key={index} className="h-36 animate-pulse rounded-[1.75rem] bg-[rgba(255,252,247,0.78)]" />

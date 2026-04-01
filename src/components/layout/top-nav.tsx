@@ -50,7 +50,7 @@ export function TopNav({ userName }: { userName: string }) {
                         "inline-flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition duration-200",
                         isActive
                           ? "bg-[linear-gradient(135deg,#173B42_0%,#24575B_100%)] text-[#fffaf2] shadow-lift"
-                          : "bg-[rgba(255,252,247,0.68)] text-slate-600 ring-1 ring-[rgba(23,59,66,0.12)] hover:bg-white hover:text-primary"
+                          : "bg-[rgba(250,253,255,0.72)] text-slate-600 ring-1 ring-[rgba(23,59,66,0.12)] hover:bg-white hover:text-primary"
                       )}
                       href={item.href}
                       prefetch

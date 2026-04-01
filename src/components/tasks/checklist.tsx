@@ -78,7 +78,7 @@ export function Checklist({ tasks }: { tasks: Task[] }) {
             <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-base font-semibold text-ink">{task.title}</h3>
               <span className="rounded-full bg-[rgba(23,59,66,0.08)] px-3 py-1 text-xs font-semibold capitalize text-primary">{task.status}</span>
-              {task.isDaily ? <span className="rounded-full bg-[rgba(210,154,58,0.14)] px-3 py-1 text-xs font-semibold text-[#9b6c1f]">daily reset</span> : null}
+              {task.isDaily ? <span className="rounded-full bg-[rgba(124,199,238,0.16)] px-3 py-1 text-xs font-semibold text-[#2b7091]">daily reset</span> : null}
             </div>
             {task.description ? <p className="mt-2 text-sm text-slate-500">{task.description}</p> : null}
             <p className="mt-3 text-sm text-slate-600">

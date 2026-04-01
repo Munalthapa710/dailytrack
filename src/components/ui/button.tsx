@@ -15,7 +15,7 @@ export function Button({ className, variant = "primary", ...props }: ButtonProps
         variant === "primary" &&
           "bg-[linear-gradient(135deg,#173B42_0%,#24575B_100%)] text-[#fffaf2] shadow-lift hover:-translate-y-0.5 hover:shadow-[0_22px_42px_rgba(23,59,66,0.24)]",
         variant === "secondary" &&
-          "bg-[linear-gradient(135deg,#E3B261_0%,#D29A3A_100%)] text-[#1f1f1c] shadow-[0_14px_32px_rgba(210,154,58,0.22)] hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(210,154,58,0.28)]",
+          "bg-[linear-gradient(135deg,#BFE6F8_0%,#7CC7EE_100%)] text-[#143440] shadow-[0_14px_32px_rgba(124,199,238,0.22)] hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(124,199,238,0.28)]",
         variant === "ghost" &&
           "bg-[rgba(255,252,247,0.72)] text-primary ring-1 ring-[rgba(23,59,66,0.14)] backdrop-blur-sm hover:bg-white hover:text-[rgb(17,43,49)]",
         variant === "danger" &&

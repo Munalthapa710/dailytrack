@@ -43,7 +43,7 @@ export function TaskList({
               <span
                 className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize ${
                   task.isDaily
-                    ? "bg-[rgba(210,154,58,0.14)] text-[#9b6c1f]"
+                    ? "bg-[rgba(124,199,238,0.16)] text-[#2b7091]"
                     : "bg-[rgba(23,59,66,0.08)] text-primary"
                 }`}
               >

@@ -6,20 +6,20 @@
   color-scheme: light;
   --font-body: "Aptos", "Trebuchet MS", "Segoe UI", sans-serif;
   --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  --bg-1: #f8efe3;
-  --bg-2: #f0e5d2;
-  --bg-3: #dde9e3;
-  --surface: rgba(255, 250, 242, 0.84);
-  --surface-strong: rgba(255, 252, 247, 0.94);
-  --surface-soft: rgba(249, 241, 228, 0.78);
-  --line: rgba(72, 58, 39, 0.14);
+  --bg-1: #eef8fc;
+  --bg-2: #e6f1f7;
+  --bg-3: #d8e8f1;
+  --surface: rgba(249, 252, 255, 0.84);
+  --surface-strong: rgba(252, 254, 255, 0.94);
+  --surface-soft: rgba(238, 247, 252, 0.82);
+  --line: rgba(39, 86, 110, 0.14);
   --line-strong: rgba(23, 59, 66, 0.18);
   --ink: #1d2433;
-  --muted: #6d6862;
+  --muted: #62707d;
   --primary: #173b42;
   --primary-strong: #112b31;
-  --accent: #d29a3a;
-  --accent-soft: rgba(210, 154, 58, 0.14);
+  --accent: #7cc7ee;
+  --accent-soft: rgba(124, 199, 238, 0.14);
   --danger: #be5b4b;
   --shadow-panel: 0 28px 80px rgba(20, 33, 52, 0.14);
 }
@@ -50,9 +50,9 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(210, 154, 58, 0.18), transparent 28%),
+    radial-gradient(circle at top left, rgba(124, 199, 238, 0.18), transparent 28%),
     radial-gradient(circle at 82% 12%, rgba(23, 59, 66, 0.14), transparent 28%),
-    linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 52%, #f6efe5 100%);
+    linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 52%, #f4fbff 100%);
   color: var(--ink);
   font-family: var(--font-body);
   overflow-x: hidden;
@@ -73,7 +73,7 @@ body::before {
   right: -10rem;
   height: 26rem;
   width: 26rem;
-  background: radial-gradient(circle, rgba(210, 154, 58, 0.18) 0%, rgba(210, 154, 58, 0) 72%);
+  background: radial-gradient(circle, rgba(124, 199, 238, 0.18) 0%, rgba(124, 199, 238, 0) 72%);
 }
 
 body::after {
@@ -94,7 +94,7 @@ a {
 }
 
 ::selection {
-  background: rgba(201, 165, 76, 0.18);
+  background: rgba(124, 199, 238, 0.24);
 }
 
 .panel {

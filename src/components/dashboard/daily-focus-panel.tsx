@@ -28,7 +28,7 @@ function getPillClasses(phase: DailyBriefing["items"][number]["phase"]) {
   }
 
   if (phase === "up-next") {
-    return "bg-[rgba(210,154,58,0.16)] text-[#9b6c1f] ring-1 ring-[rgba(210,154,58,0.24)]";
+    return "bg-[rgba(124,199,238,0.16)] text-[#2b7091] ring-1 ring-[rgba(124,199,238,0.24)]";
   }
 
   if (phase === "done") {
@@ -47,8 +47,8 @@ export function DailyFocusPanel({ briefing }: { briefing: DailyBriefing }) {
 
   return (
     <section className="grid gap-5 xl:grid-cols-[1.2fr_0.9fr]">
-      <div className="overflow-hidden rounded-[28px] bg-[radial-gradient(circle_at_top_left,rgba(244,207,136,0.24),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.12),transparent_28%),linear-gradient(135deg,#173B42_0%,#214C53_52%,#D29A3A_185%)] p-6 text-white shadow-[0_28px_70px_rgba(23,59,66,0.26)] sm:p-7">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[rgba(245,220,168,0.9)]">Today Focus</p>
+      <div className="overflow-hidden rounded-[28px] bg-[radial-gradient(circle_at_top_left,rgba(188,232,249,0.24),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.12),transparent_28%),linear-gradient(135deg,#173B42_0%,#214C53_52%,#7CC7EE_185%)] p-6 text-white shadow-[0_28px_70px_rgba(23,59,66,0.26)] sm:p-7">
+        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[rgba(216,240,251,0.92)]">Today Focus</p>
         <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <h2 className="title-display text-4xl leading-tight text-[#fffaf2] sm:text-5xl">{briefing.dateLabel}</h2>
@@ -62,7 +62,7 @@ export function DailyFocusPanel({ briefing }: { briefing: DailyBriefing }) {
           </div>
 
           <div className="rounded-[24px] border border-white/15 bg-[rgba(255,255,255,0.12)] px-5 py-4 backdrop-blur-md">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[rgba(243,220,171,0.9)]">Completion</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[rgba(216,240,251,0.92)]">Completion</p>
             <p className="metric-display mt-2 text-5xl text-[#fffaf2]">{briefing.completionRate}%</p>
             <p className="mt-1 text-sm text-[#dfe9e3]">
               {briefing.completedTasks} of {briefing.totalTasks} tasks finished
@@ -71,26 +71,26 @@ export function DailyFocusPanel({ briefing }: { briefing: DailyBriefing }) {
         </div>
 
         <div className="mt-6 h-3 overflow-hidden rounded-full bg-white/15">
-          <div className="h-full rounded-full bg-[linear-gradient(90deg,#fff6df_0%,#F4CF88_100%)]" style={{ width: progressWidth }} />
+          <div className="h-full rounded-full bg-[linear-gradient(90deg,#eef9ff_0%,#bfe6f8_100%)]" style={{ width: progressWidth }} />
         </div>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           <div className="rounded-[24px] border border-white/12 bg-[rgba(255,255,255,0.1)] px-4 py-4 backdrop-blur-md">
-            <div className="flex items-center gap-2 text-[rgba(243,220,171,0.9)]">
+            <div className="flex items-center gap-2 text-[rgba(216,240,251,0.92)]">
               <Clock3 className="h-4 w-4" />
               <span className="text-xs font-semibold uppercase tracking-[0.18em]">Planned Time</span>
             </div>
             <p className="metric-display mt-3 text-4xl text-[#fffaf2]">{formatDuration(briefing.scheduledMinutes)}</p>
           </div>
           <div className="rounded-[24px] border border-white/12 bg-[rgba(255,255,255,0.1)] px-4 py-4 backdrop-blur-md">
-            <div className="flex items-center gap-2 text-[rgba(243,220,171,0.9)]">
+            <div className="flex items-center gap-2 text-[rgba(216,240,251,0.92)]">
               <AlarmClockCheck className="h-4 w-4" />
               <span className="text-xs font-semibold uppercase tracking-[0.18em]">Finished Time</span>
             </div>
             <p className="metric-display mt-3 text-4xl text-[#fffaf2]">{formatDuration(briefing.completedMinutes)}</p>
           </div>
           <div className="rounded-[24px] border border-white/12 bg-[rgba(255,255,255,0.1)] px-4 py-4 backdrop-blur-md">
-            <div className="flex items-center gap-2 text-[rgba(243,220,171,0.9)]">
+            <div className="flex items-center gap-2 text-[rgba(216,240,251,0.92)]">
               <TimerReset className="h-4 w-4" />
               <span className="text-xs font-semibold uppercase tracking-[0.18em]">Attention Needed</span>
             </div>

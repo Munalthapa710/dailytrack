@@ -15,7 +15,7 @@ export function StatCard({
     tone === "success"
       ? "bg-[rgba(23,59,66,0.10)] text-primary"
       : tone === "warning"
-        ? "bg-[rgba(210,154,58,0.14)] text-accent"
+        ? "bg-[rgba(124,199,238,0.16)] text-[#2b7091]"
         : tone === "danger"
           ? "bg-[rgba(190,91,75,0.12)] text-danger"
           : "bg-[rgba(29,36,51,0.08)] text-ink";

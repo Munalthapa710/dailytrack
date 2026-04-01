@@ -6,9 +6,9 @@ const config: Config = {
     extend: {
       colors: {
         ink: "#1D2433",
-        mist: "#F4E6D2",
+        mist: "#EAF6FD",
         primary: "#173B42",
-        accent: "#D29A3A",
+        accent: "#7CC7EE",
         danger: "#BE5B4B"
       },
       fontFamily: {

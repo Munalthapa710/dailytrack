@@ -115,7 +115,7 @@ export function TaskFormDialog({ mode, initialValues, onTaskSaved }: TaskFormDia
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
               {conflicts.length > 0 ? (
-                <div className="rounded-[24px] border border-[rgba(210,154,58,0.24)] bg-[rgba(255,243,222,0.92)] px-4 py-4 text-sm text-[#946316]">
+                <div className="rounded-[24px] border border-[rgba(124,199,238,0.24)] bg-[rgba(238,249,255,0.94)] px-4 py-4 text-sm text-[#2b7091]">
                   <p className="font-semibold">That time slot is already occupied.</p>
                   <div className="mt-2 space-y-1">
                     {conflicts.map((conflict) => (
