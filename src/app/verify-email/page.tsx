@@ -15,13 +15,18 @@ export default async function VerifyEmailPage({
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-10">
-      <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <p className={`text-sm font-semibold ${result.ok ? "text-emerald-600" : "text-red-600"}`}>
+      <div className="panel w-full max-w-lg p-8">
+        <p className={`eyebrow ${result.ok ? "text-[#1c6d5b]" : "text-[#9d4a3d]"}`}>
           {result.ok ? "Verification complete" : "Verification failed"}
         </p>
-        <h1 className="mt-3 text-3xl font-semibold text-ink">{result.message}</h1>
+        <h1 className="title-display mt-4 text-5xl">{result.message}</h1>
+        <p className="muted-copy mt-4 text-sm leading-7">
+          {result.ok
+            ? "Your account is ready. Continue to the login page and start planning your next session."
+            : "Use a fresh verification link or return to the app and request another registration flow."}
+        </p>
         <div className="mt-8">
-          <TransitionLink className="inline-flex rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white" href="/login">
+          <TransitionLink className="inline-flex rounded-2xl bg-[linear-gradient(135deg,#173B42_0%,#24575B_100%)] px-5 py-3 text-sm font-semibold text-[#fffaf2] shadow-lift" href="/login">
             Go to login
           </TransitionLink>
         </div>

@@ -11,12 +11,15 @@ export function Button({ className, variant = "primary", ...props }: ButtonProps
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition duration-150 focus:outline-none focus:ring-2 focus:ring-accent/25 disabled:cursor-not-allowed disabled:opacity-60",
+        "inline-flex items-center justify-center rounded-2xl px-4 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60",
         variant === "primary" &&
-          "bg-primary text-white shadow-sm hover:bg-[#232329]",
-        variant === "secondary" && "bg-accent text-ink shadow-sm hover:bg-[#d5b56a]",
-        variant === "ghost" && "bg-white text-ink ring-1 ring-slate-200 hover:bg-slate-50",
-        variant === "danger" && "bg-danger text-white shadow-sm hover:bg-danger/90",
+          "bg-[linear-gradient(135deg,#173B42_0%,#24575B_100%)] text-[#fffaf2] shadow-lift hover:-translate-y-0.5 hover:shadow-[0_22px_42px_rgba(23,59,66,0.24)]",
+        variant === "secondary" &&
+          "bg-[linear-gradient(135deg,#E3B261_0%,#D29A3A_100%)] text-[#1f1f1c] shadow-[0_14px_32px_rgba(210,154,58,0.22)] hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(210,154,58,0.28)]",
+        variant === "ghost" &&
+          "bg-[rgba(255,252,247,0.72)] text-primary ring-1 ring-[rgba(23,59,66,0.14)] backdrop-blur-sm hover:bg-white hover:text-[rgb(17,43,49)]",
+        variant === "danger" &&
+          "bg-[linear-gradient(135deg,#BE5B4B_0%,#D06B5B_100%)] text-white shadow-[0_16px_34px_rgba(190,91,75,0.22)] hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(190,91,75,0.28)]",
         className
       )}
       {...props}

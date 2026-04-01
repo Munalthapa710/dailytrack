@@ -2,6 +2,7 @@
 
 import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useNavigationProgress } from "@/components/navigation/navigation-provider";
 import { Button } from "@/components/ui/button";
 import { FilterKey } from "@/types";
 
@@ -19,6 +20,7 @@ export function FilterBar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { startNavigation } = useNavigationProgress();
   const active = (searchParams.get("filter") as FilterKey) ?? "all";
 
   function setFilter(filter: FilterKey) {
@@ -29,11 +31,12 @@ export function FilterBar() {
       params.set("filter", filter);
     }
     const query = params.toString();
+    startNavigation();
     router.push((query ? `${pathname}?${query}` : pathname) as Route);
   }
 
   return (
-    <div className="flex flex-wrap gap-2 rounded-[1.75rem] border border-white/60 bg-[rgba(255,255,255,0.56)] p-3 backdrop-blur">
+    <div className="panel-soft flex flex-wrap gap-2 p-3">
       {filters.map((filter) => (
         <Button
           key={filter.value}

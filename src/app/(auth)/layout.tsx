@@ -4,13 +4,18 @@ import { PageTransitionShell } from "@/components/navigation/page-transition-she
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-10">
-      <div className="grid w-full max-w-6xl overflow-hidden rounded-[2.25rem] border border-white/55 bg-[rgba(255,255,255,0.62)] shadow-[0_28px_90px_rgba(15,23,42,0.14)] backdrop-blur-xl lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="hidden bg-[#0f172a] p-8 text-white lg:flex lg:flex-col lg:justify-between">
+      <div className="panel-soft grid w-full max-w-6xl overflow-hidden lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="relative hidden overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,154,58,0.2),transparent_30%),linear-gradient(145deg,#173B42_0%,#214C53_48%,#0F252B_100%)] p-8 text-white lg:flex lg:flex-col lg:justify-between">
+          <div className="pointer-events-none absolute -right-16 top-12 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(210,154,58,0.32),rgba(210,154,58,0)_72%)]" />
+          <div className="pointer-events-none absolute -left-20 bottom-0 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.12),rgba(255,255,255,0)_72%)]" />
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-[#C9A54C]">DailyRoutine</p>
-            <h1 className="mt-4 text-4xl font-semibold tracking-tight">Daily planner for tasks, checklist, and progress tracking.</h1>
+            <p className="eyebrow text-[#f4cf88]">DailyRoutine</p>
+            <h1 className="title-display mt-5 text-5xl text-[#fffaf2]">Design your day with rhythm, clarity, and momentum.</h1>
+            <p className="mt-5 max-w-md text-sm leading-7 text-[#dce7e1]">
+              Plan work blocks, manage recurring tasks, and move between dashboard, checklist, and analytics with a calmer visual flow.
+            </p>
           </div>
-          <div className="mt-8 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 p-4">
+          <div className="relative mt-8 overflow-hidden rounded-[1.85rem] border border-white/10 bg-[rgba(255,255,255,0.08)] p-4 backdrop-blur-sm">
             <Image
               alt="Task planner dashboard illustration"
               className="h-auto w-full rounded-[1.25rem]"
@@ -21,7 +26,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             />
           </div>
         </div>
-        <div className="p-6 sm:p-10 lg:p-12">
+        <div className="bg-[linear-gradient(180deg,rgba(255,252,247,0.88),rgba(250,242,228,0.72))] p-6 sm:p-10 lg:p-12">
           <PageTransitionShell>{children}</PageTransitionShell>
         </div>
       </div>

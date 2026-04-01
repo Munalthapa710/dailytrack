@@ -11,33 +11,40 @@ export function StatCard({
   tone?: "default" | "success" | "warning" | "danger";
   isPercentage?: boolean;
 }) {
+  const toneClasses =
+    tone === "success"
+      ? "bg-[rgba(23,59,66,0.10)] text-primary"
+      : tone === "warning"
+        ? "bg-[rgba(210,154,58,0.14)] text-accent"
+        : tone === "danger"
+          ? "bg-[rgba(190,91,75,0.12)] text-danger"
+          : "bg-[rgba(29,36,51,0.08)] text-ink";
+
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div
-        className={`mb-4 h-1.5 w-14 rounded-full ${
-          tone === "success"
-            ? "bg-primary"
-            : tone === "warning"
-              ? "bg-accent"
-              : tone === "danger"
-                ? "bg-danger"
-                : "bg-slate-300"
-        }`}
-      />
-      <p className="text-sm font-medium text-slate-500">{label}</p>
-      <p
-        className={`mt-3 text-3xl font-bold ${
-          tone === "success"
-            ? "text-primary"
-            : tone === "warning"
-              ? "text-accent"
-              : tone === "danger"
-                ? "text-danger"
-                : "text-ink"
-        }`}
-      >
+    <div className="panel-soft overflow-hidden p-5">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm font-medium text-slate-500">{label}</p>
+        <div className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${toneClasses}`}>
+          {tone}
+        </div>
+      </div>
+      <p className="metric-display mt-5 text-5xl text-ink">
         {isPercentage ? formatPercentage(value) : value}
       </p>
+      <div className="mt-5 h-2 overflow-hidden rounded-full bg-[rgba(23,59,66,0.08)]">
+        <div
+          className={`h-full rounded-full ${
+            tone === "success"
+              ? "bg-primary"
+              : tone === "warning"
+                ? "bg-accent"
+                : tone === "danger"
+                  ? "bg-danger"
+                  : "bg-[rgba(29,36,51,0.24)]"
+          }`}
+          style={{ width: `${Math.min(100, Math.max(18, value))}%` }}
+        />
+      </div>
     </div>
   );
 }

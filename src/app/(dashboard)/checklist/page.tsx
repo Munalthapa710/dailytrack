@@ -9,9 +9,9 @@ export default async function ChecklistPage() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm font-medium text-slate-500">Checklist</p>
-        <h2 className="mt-2 text-3xl font-semibold text-ink">Today&apos;s tasks</h2>
+      <div className="panel p-6">
+        <p className="eyebrow">Checklist</p>
+        <h2 className="title-display mt-3 text-4xl">Today&apos;s tasks</h2>
       </div>
 
       {tasks.length === 0 ? (

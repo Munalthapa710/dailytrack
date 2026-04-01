@@ -1,9 +1,9 @@
 "use client";
 
-import type { TaskStatus } from "@prisma/client";
-import { useRouter } from "next/navigation";
+import type { Task, TaskStatus } from "@prisma/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { hydrateTask, type TaskPayload } from "@/lib/task-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -29,10 +29,10 @@ interface TaskConflict {
 interface TaskFormDialogProps {
   mode: "create" | "edit";
   initialValues?: Partial<TaskFormValues> & { id?: string };
+  onTaskSaved?: (task: Task) => void;
 }
 
-export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
-  const router = useRouter();
+export function TaskFormDialog({ mode, initialValues, onTaskSaved }: TaskFormDialogProps) {
   const [open, setOpen] = useState(false);
   const [conflicts, setConflicts] = useState<TaskConflict[]>([]);
   const { showToast } = useToast();
@@ -72,11 +72,12 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
       return;
     }
 
+    const savedTask = hydrateTask((payload as { task: TaskPayload }).task);
     showToast(mode === "create" ? "Task created successfully." : "Task updated successfully.", "success");
     setOpen(false);
     setConflicts([]);
     reset();
-    router.refresh();
+    onTaskSaved?.(savedTask);
   }
 
   return (
@@ -93,15 +94,15 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
         {mode === "create" ? "Add task" : "Edit"}
       </Button>
       {open ? (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/35 p-4 sm:items-center">
-          <div className="w-full max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(17,30,38,0.38)] p-4 backdrop-blur-sm sm:items-center">
+          <div className="w-full max-w-2xl rounded-[32px] border border-[rgba(23,59,66,0.12)] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(249,241,228,0.94))] p-6 shadow-[0_28px_80px_rgba(20,33,52,0.24)]">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Task editor</p>
-                <h3 className="mt-2 text-2xl font-semibold tracking-tight text-ink">{mode === "create" ? "Create task" : "Edit task"}</h3>
+                <p className="eyebrow">Task editor</p>
+                <h3 className="title-display mt-3 text-4xl">{mode === "create" ? "Create task" : "Edit task"}</h3>
               </div>
               <button
-                className="rounded-lg bg-slate-100 px-3 py-1.5 text-sm font-medium text-slate-500 transition hover:bg-slate-200"
+                className="rounded-2xl bg-[rgba(255,252,247,0.78)] px-4 py-2 text-sm font-medium text-slate-500 ring-1 ring-[rgba(23,59,66,0.12)] transition hover:bg-white hover:text-primary"
                 onClick={() => {
                   setConflicts([]);
                   setOpen(false);
@@ -114,7 +115,7 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
               {conflicts.length > 0 ? (
-                <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-900">
+                <div className="rounded-[24px] border border-[rgba(210,154,58,0.24)] bg-[rgba(255,243,222,0.92)] px-4 py-4 text-sm text-[#946316]">
                   <p className="font-semibold">That time slot is already occupied.</p>
                   <div className="mt-2 space-y-1">
                     {conflicts.map((conflict) => (
@@ -135,7 +136,7 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
                 <label className="block text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Description</label>
                 <Textarea placeholder="Add notes, outcomes, or context for this task." {...register("description")} />
               </div>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="inset-panel p-4">
                 <div className="mb-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Schedule</p>
                 </div>
@@ -150,7 +151,7 @@ export function TaskFormDialog({ mode, initialValues }: TaskFormDialogProps) {
                   </div>
                 </div>
               </div>
-              <label className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700">
+              <label className="inset-panel flex items-center gap-3 px-4 py-4 text-sm text-slate-700">
                 <input className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox" {...register("isDaily")} />
                 <span>
                   <span className="block font-semibold text-ink">Repeat this task every day</span>

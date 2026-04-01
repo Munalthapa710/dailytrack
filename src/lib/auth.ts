@@ -1,26 +1,19 @@
 import { cache } from "react";
 import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { withDbTimeout } from "@/lib/db-guard";
 import { prisma } from "@/lib/prisma";
 import { AUTH_COOKIE } from "@/lib/constants";
-const encoder = new TextEncoder();
-
-export interface SessionUser {
-  id: string;
-  email: string;
-  name: string;
-}
+import { decodeSessionToken, SessionUser, signSessionToken } from "@/lib/session-token";
 
 function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
     throw new Error("JWT_SECRET is not configured.");
   }
-  return encoder.encode(secret);
+  return secret;
 }
 
 export async function hashPassword(password: string) {
@@ -32,24 +25,11 @@ export async function comparePassword(password: string, hash: string) {
 }
 
 export async function createSessionToken(user: Pick<User, "id" | "email" | "name">) {
-  return new SignJWT({
-    sub: user.id,
-    email: user.email,
-    name: user.name
-  })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("7d")
-    .sign(getJwtSecret());
+  return signSessionToken(user, getJwtSecret());
 }
 
 export async function verifySessionToken(token: string) {
-  const { payload } = await jwtVerify(token, getJwtSecret());
-  return {
-    id: payload.sub as string,
-    email: payload.email as string,
-    name: payload.name as string
-  };
+  return decodeSessionToken(token, getJwtSecret());
 }
 
 export async function setSessionCookie(token: string) {

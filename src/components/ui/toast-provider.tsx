@@ -44,8 +44,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             key={toast.id}
             className={`pointer-events-auto flex items-start gap-3 rounded-xl border px-4 py-3 shadow-lg ${
               toast.type === "error"
-                ? "border-red-200 bg-white text-red-700"
-                : "border-emerald-200 bg-white text-emerald-700"
+                ? "border-[rgba(190,91,75,0.24)] bg-[rgba(255,248,245,0.92)] text-[#9d4a3d] backdrop-blur-xl"
+                : "border-[rgba(23,111,91,0.18)] bg-[rgba(245,252,248,0.94)] text-[#1c6d5b] backdrop-blur-xl"
             }`}
           >
             {toast.type === "error" ? <AlertCircle className="mt-0.5 h-4 w-4" /> : <CheckCircle2 className="mt-0.5 h-4 w-4" />}

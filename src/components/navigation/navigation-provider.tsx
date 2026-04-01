@@ -93,7 +93,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
         <div className="absolute inset-x-0 top-0 h-1 overflow-hidden bg-transparent">
           <div
             className={cn(
-              "h-full w-full origin-left bg-[linear-gradient(90deg,#C9A54C_0%,#0f172a_55%,#C9A54C_100%)] transition-transform duration-500 ease-out",
+              "h-full w-full origin-left bg-[linear-gradient(90deg,#D29A3A_0%,#173B42_52%,#D29A3A_100%)] transition-transform duration-500 ease-out",
               isNavigating ? "scale-x-100" : "scale-x-0"
             )}
           />
@@ -101,7 +101,7 @@ export function NavigationProvider({ children }: { children: React.ReactNode }) 
         <div className="absolute inset-0 overflow-hidden">
           <div
             className={cn(
-              "absolute inset-y-0 -left-[42%] w-[55%] bg-[linear-gradient(120deg,rgba(201,165,76,0.00)_0%,rgba(201,165,76,0.12)_32%,rgba(15,23,42,0.14)_65%,rgba(15,23,42,0.00)_100%)] blur-3xl transition-transform duration-500 ease-out",
+              "absolute inset-y-0 -left-[42%] w-[55%] bg-[linear-gradient(120deg,rgba(210,154,58,0)_0%,rgba(210,154,58,0.14)_32%,rgba(23,59,66,0.16)_65%,rgba(23,59,66,0)_100%)] blur-3xl transition-transform duration-500 ease-out",
               isNavigating ? "translate-x-[210%]" : "translate-x-0"
             )}
           />

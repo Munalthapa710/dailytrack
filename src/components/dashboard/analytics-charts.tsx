@@ -14,27 +14,31 @@ import { ChartDatum } from "@/types";
 
 function ChartBlock({ title, data }: { title: string; data: ChartDatum[] }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="panel p-5">
       <div className="flex items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold text-ink">{title}</h3>
+        <div>
+          <p className="eyebrow">Trends</p>
+          <h3 className="title-display mt-2 text-3xl">{title}</h3>
+        </div>
       </div>
       <div className="mt-6 h-72">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#D7E1E8" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(23, 59, 66, 0.08)" />
             <XAxis dataKey="label" stroke="#64748B" fontSize={12} />
             <YAxis stroke="#64748B" fontSize={12} allowDecimals={false} />
             <Tooltip
               contentStyle={{
                 borderRadius: 18,
-                border: "1px solid rgba(226, 232, 240, 1)",
-                boxShadow: "0 18px 40px rgba(15, 23, 42, 0.1)"
+                border: "1px solid rgba(23, 59, 66, 0.12)",
+                background: "rgba(255, 252, 247, 0.96)",
+                boxShadow: "0 18px 40px rgba(15, 23, 42, 0.12)"
               }}
             />
             <Legend />
-            <Bar dataKey="completed" fill="#1A1A1F" radius={[6, 6, 0, 0]} />
-            <Bar dataKey="pending" fill="#C9A54C" radius={[6, 6, 0, 0]} />
-            <Bar dataKey="missed" fill="#C24141" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="completed" fill="#173B42" radius={[8, 8, 0, 0]} />
+            <Bar dataKey="pending" fill="#D29A3A" radius={[8, 8, 0, 0]} />
+            <Bar dataKey="missed" fill="#BE5B4B" radius={[8, 8, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

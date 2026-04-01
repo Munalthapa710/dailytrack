@@ -22,17 +22,17 @@ export function TopNav({ userName }: { userName: string }) {
 
   return (
     <header className="sticky top-0 z-40">
-      <div className="mx-auto max-w-[1300px] px-4 pt-4 sm:px-6 lg:px-8">
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
+      <div className="mx-auto max-w-[1300px] px-4 pt-5 sm:px-6 lg:px-8">
+        <div className="panel-soft px-5 py-4">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-4">
               <TransitionLink className="flex items-center gap-3" href="/dashboard">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-white">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(145deg,#173B42_0%,#24575B_100%)] text-white shadow-lift">
                   <LayoutDashboard className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">DailyRoutine</p>
-                  <p className="text-sm font-medium text-slate-500">Hello, {userName}</p>
+                  <p className="eyebrow">DailyRoutine</p>
+                  <p className="mt-1 text-sm font-medium text-slate-500">Hello, {userName}</p>
                 </div>
               </TransitionLink>
             </div>
@@ -47,10 +47,10 @@ export function TopNav({ userName }: { userName: string }) {
                     <TransitionLink
                       key={item.href}
                       className={cn(
-                        "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
+                        "inline-flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition duration-200",
                         isActive
-                          ? "bg-primary text-white"
-                          : "bg-white/80 text-slate-600 ring-1 ring-slate-200 hover:bg-white hover:text-ink"
+                          ? "bg-[linear-gradient(135deg,#173B42_0%,#24575B_100%)] text-[#fffaf2] shadow-lift"
+                          : "bg-[rgba(255,252,247,0.68)] text-slate-600 ring-1 ring-[rgba(23,59,66,0.12)] hover:bg-white hover:text-primary"
                       )}
                       href={item.href}
                       prefetch

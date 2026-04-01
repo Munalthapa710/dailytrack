@@ -8,7 +8,7 @@ Live Demo: https://dailytrack-web.onrender.com/login
 
 - Frontend: Next.js App Router + React 19 + TypeScript + Tailwind CSS
 - Backend: Next.js Route Handlers for REST-style APIs
-- Database: SQLite for local development with Prisma ORM
+- Database: SQLite for local development and PostgreSQL for deployment, both accessed through Prisma ORM
 - Auth: JWT stored in secure HTTP-only cookies + bcrypt password hashing
 - Email: Resend HTTP API verification email before first login
 - Charts: Recharts
@@ -17,7 +17,7 @@ Live Demo: https://dailytrack-web.onrender.com/login
 
 - A single Next.js codebase keeps UI, API routes, auth, and server rendering tightly aligned.
 - Prisma adds a clear schema, migrations, and type-safe data access that scales better than handwritten SQL for this app size.
-- PostgreSQL keeps local and deployed environments aligned while Prisma provides type-safe data access.
+- SQLite keeps local setup lightweight, while PostgreSQL remains the deployment target for Render.
 - JWT cookies provide stateless auth while keeping tokens out of local storage.
 
 ## 2. Folder structure
@@ -26,6 +26,7 @@ Live Demo: https://dailytrack-web.onrender.com/login
 DailyRoutine/
 |-- prisma/
 |   |-- schema.prisma
+|   `-- schema.sqlite.prisma
 |-- public/
 |-- src/
 |   |-- app/
@@ -98,6 +99,8 @@ Key behavior:
 
 ## 6. Setup
 
+Local development uses SQLite through `prisma/schema.sqlite.prisma`. Deployment uses PostgreSQL through `prisma/schema.prisma`.
+
 1. Install dependencies:
 
 ```bash
@@ -112,28 +115,35 @@ Copy-Item .env.example .env
 
 3. Update `.env` with your JWT secret and Resend credentials.
 
-4. Generate Prisma client and run migrations:
-
-```bash
-npx prisma generate
-npx prisma migrate dev --name init
-```
-
-5. Start the app:
+4. Start the local app:
 
 ```bash
 npm run dev
 ```
 
-6. Open `http://localhost:3000`
+What `npm run dev` does for local development:
 
-## 7. Future improvements
+- generates a Prisma client from `prisma/schema.sqlite.prisma`
+- pushes the SQLite schema to `prisma/prisma/dev.db`
+- starts Next.js
+
+5. Open `http://localhost:3000`
+
+## 7. Tests
+
+Run the unit test suite:
+
+```bash
+npm test
+```
+
+## 8. Future improvements
 
 - Add recurring tasks and drag-and-drop scheduling.
 - Add timezone-aware timestamp storage.
 - Add cron-based missed-task processing instead of request-time sync.
-- Add optimistic updates, toast notifications, and pagination.
-- Add automated tests for auth, tasks, and analytics.
+- Add pagination for larger task histories.
+- Add integration tests for auth, tasks, and analytics routes.
 
 ## Deploy on Render
 
@@ -156,4 +166,5 @@ Database setup for free deployment:
 
 - Use a free external Postgres database such as Neon
 - In Render, add `DATABASE_URL` manually to the `dailytrack-web` service before the first successful deploy
+- Render uses `npm run build:deploy`, which generates Prisma from `prisma/schema.prisma` and pushes the PostgreSQL schema before building Next.js
 - For email verification on Render free, use `RESEND_API_KEY` and `EMAIL_FROM` instead of SMTP

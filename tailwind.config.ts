@@ -5,17 +5,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#0B0B0F",
-        mist: "#F5F1E7",
-        primary: "#1A1A1F",
-        accent: "#C9A54C",
-        danger: "#C24141"
+        ink: "#1D2433",
+        mist: "#F4E6D2",
+        primary: "#173B42",
+        accent: "#D29A3A",
+        danger: "#BE5B4B"
       },
       fontFamily: {
-        sans: ["var(--font-sans)"]
+        sans: ["Aptos", "Trebuchet MS", "Segoe UI", "sans-serif"],
+        display: ["Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Georgia", "serif"]
       },
       boxShadow: {
-        panel: "0 18px 50px rgba(15, 23, 42, 0.08)"
+        panel: "0 28px 80px rgba(20, 33, 52, 0.12)",
+        lift: "0 18px 44px rgba(23, 59, 66, 0.18)"
       }
     }
   },
