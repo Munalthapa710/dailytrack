@@ -24,8 +24,8 @@ export function TaskList({
   onTaskSaved: (task: Task) => void;
 }) {
   return (
-    <div className="panel overflow-hidden">
-      <div className="hidden grid-cols-[1.35fr_0.75fr_0.5fr_0.5fr_0.9fr_0.95fr] gap-4 border-b border-[var(--app-line)] bg-slate-50 px-6 py-4 text-xs font-black uppercase tracking-[0.12em] text-slate-500 sm:grid">
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="hidden grid-cols-[1.35fr_0.75fr_0.5fr_0.5fr_0.9fr_0.95fr] gap-4 border-b border-slate-200 bg-[var(--app-primary-soft)] px-4 py-3 text-xs font-black uppercase tracking-wider text-slate-600 sm:grid">
         <span>Task</span>
         <span>Date</span>
         <span>Start</span>
@@ -33,11 +33,11 @@ export function TaskList({
         <span>Type</span>
         <span>Actions</span>
       </div>
-      <div className="divide-y divide-[var(--app-line)]">
+      <div className="divide-y divide-slate-200">
         {tasks.map((task) => (
           <div
             key={task.id}
-            className="grid gap-4 px-5 py-5 transition hover:bg-slate-50 sm:grid-cols-[1.35fr_0.75fr_0.5fr_0.5fr_0.9fr_0.95fr] sm:px-6"
+            className="grid gap-4 px-4 py-3.5 text-sm transition hover:bg-[var(--app-primary-soft)] sm:grid-cols-[1.35fr_0.75fr_0.5fr_0.5fr_0.9fr_0.95fr]"
           >
             <div>
               <p className="font-extrabold text-[var(--app-text)]">{task.title}</p>

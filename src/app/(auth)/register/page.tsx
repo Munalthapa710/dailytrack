@@ -3,18 +3,20 @@ import { TransitionLink } from "@/components/navigation/transition-link";
 
 export default function RegisterPage() {
   return (
-    <div>
-      <p className="eyebrow">Create account</p>
-      <h2 className="title-display mt-4 text-5xl">Build a calmer planning ritual.</h2>
-      <p className="muted-copy mt-4 max-w-md text-sm leading-7">
-        Register once and keep every task, checklist action, and performance metric under your own secure workspace.
-      </p>
-      <div className="panel mt-8 p-6 sm:p-7">
+    <div className="w-full max-w-md rounded-lg border border-slate-200 bg-white p-6 shadow-xl">
+      <div className="mb-6 flex items-center gap-3">
+        <div className="login-logo">D</div>
+        <div>
+          <h1 className="text-xl font-black text-slate-950">DailyRoutine</h1>
+          <p className="text-sm text-slate-500">Create your planning workspace</p>
+        </div>
+      </div>
+      <div>
         <AuthForm mode="register" />
       </div>
-      <p className="muted-copy mt-6 text-sm">
+      <p className="mt-6 text-sm text-slate-500">
         Already have an account?{" "}
-        <TransitionLink className="font-semibold text-primary underline-offset-4 transition hover:text-primary/80 hover:underline" href="/login">
+        <TransitionLink className="font-black text-[var(--app-primary)] underline-offset-4 transition hover:underline" href="/login">
           Sign in
         </TransitionLink>
       </p>

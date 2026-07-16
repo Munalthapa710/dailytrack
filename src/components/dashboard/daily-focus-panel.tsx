@@ -1,6 +1,6 @@
 "use client";
 
-import { AlarmClockCheck, ArrowRight, Clock3, TimerReset } from "lucide-react";
+import { AlarmClockCheck, ArrowRight, Clock3, TimerReset, TrendingUp } from "lucide-react";
 import { DailyBriefing } from "@/types";
 
 function formatDuration(minutes: number) {
@@ -46,64 +46,51 @@ export function DailyFocusPanel({ briefing }: { briefing: DailyBriefing }) {
   const progressWidth = `${Math.min(Math.max(briefing.completionRate, 0), 100)}%`;
 
   return (
-    <section className="grid gap-5 xl:grid-cols-[1.2fr_0.9fr]">
-      <div className="brand-gradient overflow-hidden rounded-lg p-6 text-white shadow-[0_28px_70px_rgba(15,23,42,0.20)] sm:p-7">
-        <p className="text-xs font-black uppercase tracking-[0.16em] text-white/80">Today Focus</p>
-        <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <h2 className="title-display text-3xl leading-tight text-white sm:text-4xl">{briefing.dateLabel}</h2>
-            <p className="mt-3 max-w-xl text-sm text-white/80 sm:text-base">
-              {briefing.currentTask
-                ? `You are currently inside ${briefing.currentTask.title}. Keep the streak moving.`
-                : briefing.nextTask
-                  ? `Next up is ${briefing.nextTask.title} at ${briefing.nextTask.startTime}.`
-                  : "No active block right now. Use the calm window to prepare tomorrow's work."}
-            </p>
-          </div>
-
-          <div className="rounded-lg border border-white/15 bg-white/10 px-5 py-4">
-            <p className="text-xs font-black uppercase tracking-[0.14em] text-white/80">Completion</p>
-            <p className="metric-display mt-2 text-4xl text-white">{briefing.completionRate}%</p>
-            <p className="mt-1 text-sm text-white/75">
-              {briefing.completedTasks} of {briefing.totalTasks} tasks finished
-            </p>
-          </div>
+    <section className="grid gap-[22px] xl:grid-cols-[minmax(0,0.9fr)_minmax(420px,1.2fr)]">
+      <div className="profit-card">
+        <div className="relative z-10">
+          <span className="mb-4 block text-sm font-extrabold text-white/85">Today focus</span>
+          <strong className="block text-4xl font-black leading-none">{briefing.completionRate}%</strong>
+          <p className="mt-4 flex items-center gap-2 text-sm font-bold text-white/90">
+            <b className="rounded-full bg-white px-2 py-1 text-xs text-[var(--app-primary-strong)]">{briefing.completedTasks}/{briefing.totalTasks}</b>
+            {briefing.currentTask ? briefing.currentTask.title : briefing.nextTask ? `Next: ${briefing.nextTask.title}` : briefing.dateLabel}
+          </p>
         </div>
-
-        <div className="mt-6 h-3 overflow-hidden rounded-full bg-white/15">
-          <div className="h-full rounded-full bg-white" style={{ width: progressWidth }} />
-        </div>
-
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-lg border border-white/12 bg-white/10 px-4 py-4">
-            <div className="flex items-center gap-2 text-white/80">
-              <Clock3 className="h-4 w-4" />
-              <span className="text-xs font-black uppercase tracking-[0.14em]">Planned Time</span>
-            </div>
-            <p className="metric-display mt-3 text-3xl text-white">{formatDuration(briefing.scheduledMinutes)}</p>
-          </div>
-          <div className="rounded-lg border border-white/12 bg-white/10 px-4 py-4">
-            <div className="flex items-center gap-2 text-white/80">
-              <AlarmClockCheck className="h-4 w-4" />
-              <span className="text-xs font-black uppercase tracking-[0.14em]">Finished Time</span>
-            </div>
-            <p className="metric-display mt-3 text-3xl text-white">{formatDuration(briefing.completedMinutes)}</p>
-          </div>
-          <div className="rounded-lg border border-white/12 bg-white/10 px-4 py-4">
-            <div className="flex items-center gap-2 text-white/80">
-              <TimerReset className="h-4 w-4" />
-              <span className="text-xs font-black uppercase tracking-[0.14em]">Attention Needed</span>
-            </div>
-            <p className="metric-display mt-3 text-3xl text-white">{briefing.pendingTasks + briefing.missedTasks}</p>
-          </div>
-        </div>
+        <svg viewBox="0 0 560 190" aria-hidden="true">
+          <path d="M0 126 C55 76 93 91 142 120 C206 158 263 143 310 92 C362 34 399 45 432 85 C473 136 504 135 529 62 C542 25 560 18 581 31" fill="none" />
+          <circle cx="390" cy="62" r="10" />
+        </svg>
       </div>
 
-      <div className="panel p-5 sm:p-6">
+      <div className="dashboard-stat-grid">
+        {[
+          { label: "Planned Time", value: formatDuration(briefing.scheduledMinutes), icon: Clock3 },
+          { label: "Finished Time", value: formatDuration(briefing.completedMinutes), icon: AlarmClockCheck },
+          { label: "Attention Needed", value: briefing.pendingTasks + briefing.missedTasks, icon: TimerReset },
+          { label: "Completion", value: `${briefing.completionRate}%`, icon: TrendingUp }
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <div className="dashboard-stat-card" key={item.label}>
+              <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3">
+                <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--app-primary-soft)] text-[var(--app-primary-strong)]">
+                  <Icon className="h-4 w-4" />
+                </span>
+                <p className="text-sm font-extrabold text-slate-500">{item.label}</p>
+                <b className="text-xs font-black text-[var(--app-primary-strong)]">+15%</b>
+              </div>
+              <strong className="text-3xl font-black text-[var(--app-text)]">{item.value}</strong>
+              <small className="text-xs font-extrabold text-slate-400">{briefing.dateLabel}</small>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="dashboard-panel xl:col-span-2">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="eyebrow">Agenda</p>
-            <h3 className="title-display mt-2 text-2xl">Timeline for today</h3>
+            <h3 className="mt-1 text-base font-black text-[var(--app-text)]">Timeline for today</h3>
           </div>
           <div className="rounded-md bg-[color-mix(in_srgb,var(--app-primary)_12%,white)] px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-[var(--app-primary)]">
             {briefing.totalTasks} blocks

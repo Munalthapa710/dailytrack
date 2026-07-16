@@ -52,10 +52,11 @@ export function TasksWorkspace({ initialTasks, filter }: { initialTasks: Task[];
 
   return (
     <div className="space-y-6">
-      <div className="panel flex flex-col gap-5 p-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="page-header">
         <div>
           <p className="eyebrow">Tasks</p>
-          <h2 className="title-display mt-3 text-4xl">Add and manage tasks</h2>
+          <h1>Add and manage tasks</h1>
+          <p>Create scheduled blocks, labels, priorities, and reminders.</p>
         </div>
         <TaskFormDialog mode="create" onTaskSaved={handleTaskSaved} />
       </div>

@@ -3,18 +3,20 @@ import { TransitionLink } from "@/components/navigation/transition-link";
 
 export default function LoginPage() {
   return (
-    <div>
-      <p className="eyebrow">Welcome back</p>
-      <h2 className="title-display mt-4 text-5xl">Step back into your work rhythm.</h2>
-      <p className="muted-copy mt-4 max-w-md text-sm leading-7">
-        Access your tasks, tick today&apos;s work, and review weekly, monthly, and yearly performance in one workspace.
-      </p>
-      <div className="panel mt-8 p-6 sm:p-7">
+    <div className="w-full max-w-md rounded-lg border border-slate-200 bg-white p-6 shadow-xl">
+      <div className="mb-6 flex items-center gap-3">
+        <div className="login-logo">D</div>
+        <div>
+          <h1 className="text-xl font-black text-slate-950">DailyRoutine</h1>
+          <p className="text-sm text-slate-500">Sign in to manage operations</p>
+        </div>
+      </div>
+      <div>
         <AuthForm mode="login" />
       </div>
-      <p className="muted-copy mt-6 text-sm">
+      <p className="mt-6 text-sm text-slate-500">
         Need an account?{" "}
-        <TransitionLink className="font-semibold text-primary underline-offset-4 transition hover:text-primary/80 hover:underline" href="/register">
+        <TransitionLink className="font-black text-[var(--app-primary)] underline-offset-4 transition hover:underline" href="/register">
           Register here
         </TransitionLink>
       </p>

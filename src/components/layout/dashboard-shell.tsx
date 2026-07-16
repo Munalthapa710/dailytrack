@@ -9,10 +9,10 @@ export function DashboardShell({
   userName: string;
 }) {
   return (
-    <div className="min-h-screen bg-[var(--app-background)] pb-24 lg:flex lg:pb-4">
+    <div className="app-shell min-h-screen">
       <TopNav userName={userName} />
-      <div className="min-w-0 flex-1 px-4 py-4 sm:px-6 lg:ml-72 lg:px-8">
-        <main className="relative min-h-[calc(100vh-2rem)] overflow-hidden rounded-lg border border-[var(--app-line)] bg-white px-4 py-5 shadow-panel sm:px-6 lg:py-7">
+      <div className="app-main transition-all lg:pl-[244px]">
+        <main className="mx-auto max-w-[1600px] px-4 py-4 pb-28 sm:px-6 lg:px-6 lg:py-6">
           <PageTransitionShell>{children}</PageTransitionShell>
         </main>
       </div>

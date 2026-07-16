@@ -14,14 +14,12 @@ import { ChartDatum } from "@/types";
 
 function ChartBlock({ title, data }: { title: string; data: ChartDatum[] }) {
   return (
-    <div className="panel p-5">
-      <div className="flex items-center justify-between gap-3">
-        <div>
-          <p className="eyebrow">Trends</p>
-          <h3 className="title-display mt-2 text-3xl">{title}</h3>
-        </div>
+    <div className="dashboard-panel">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h3 className="text-base font-black text-[var(--app-text)]">{title}</h3>
+        <button className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-black text-slate-500" type="button">Monthly</button>
       </div>
-      <div className="mt-6 h-72">
+      <div className="h-72">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(23, 59, 66, 0.08)" />
@@ -29,9 +27,9 @@ function ChartBlock({ title, data }: { title: string; data: ChartDatum[] }) {
             <YAxis stroke="#64748B" fontSize={12} allowDecimals={false} />
             <Tooltip
               contentStyle={{
-                borderRadius: 18,
-                border: "1px solid rgba(23, 59, 66, 0.12)",
-                background: "rgba(255, 252, 247, 0.96)",
+                borderRadius: 12,
+                border: "1px solid #e2e8f0",
+                background: "#fff",
                 boxShadow: "0 18px 40px rgba(15, 23, 42, 0.12)"
               }}
             />

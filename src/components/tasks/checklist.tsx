@@ -72,7 +72,7 @@ export function Checklist({ tasks }: { tasks: Task[] }) {
       {items.map((task) => (
         <div
           key={task.id}
-          className="panel flex items-start gap-4 p-5 transition hover:border-[rgba(23,59,66,0.18)] hover:bg-[rgba(255,252,247,0.98)]"
+          className="page-panel flex items-start gap-4 transition hover:border-[var(--app-primary-muted)] hover:bg-[var(--app-primary-soft)]"
         >
           <input
             checked={task.status === "completed"}

@@ -21,14 +21,14 @@ export function StatCard({
           : "bg-slate-100 text-[var(--app-text)]";
 
   return (
-    <div className="panel-soft overflow-hidden p-5">
+    <div className="stat-card overflow-hidden">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm font-medium text-slate-500">{label}</p>
+        <p className="text-xs font-black uppercase tracking-wider text-slate-500">{label}</p>
         <div className={`rounded-md px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] ${toneClasses}`}>
           {tone}
         </div>
       </div>
-      <p className="metric-display mt-5 text-4xl text-[var(--app-text)]">
+      <p className="mt-3 text-2xl font-black text-[var(--app-text)]">
         {isPercentage ? formatPercentage(value) : value}
       </p>
       <div className="mt-5 h-2 overflow-hidden rounded-full bg-slate-100">

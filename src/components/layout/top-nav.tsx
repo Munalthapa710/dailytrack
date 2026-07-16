@@ -2,7 +2,7 @@
 
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
-import { CalendarPlus2, CheckSquare, LayoutDashboard, PanelLeftClose, Settings } from "lucide-react";
+import { Bell, CalendarPlus2, CheckSquare, LayoutDashboard, Settings } from "lucide-react";
 import { LogoutButton } from "@/components/layout/logout-button";
 import { TransitionLink } from "@/components/navigation/transition-link";
 import { AppearanceMenu } from "@/components/theme/appearance-menu";
@@ -23,22 +23,20 @@ export function TopNav({ userName }: { userName: string }) {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 lg:fixed lg:inset-y-0 lg:left-0 lg:w-72">
-      <div className="p-3 lg:h-full lg:p-4">
-        <div className="app-sidebar flex rounded-lg border border-[var(--app-line)] bg-white/90 p-3 shadow-panel lg:h-full lg:flex-col lg:p-4">
-          <div className="flex min-w-0 flex-1 items-center gap-3 lg:flex-none">
-            <TransitionLink className="flex min-w-0 items-center gap-3" href="/dashboard">
-              <div className="brand-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-white shadow-lift">
-                <LayoutDashboard className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-black uppercase tracking-[0.12em] text-[var(--app-text)]">DailyRoutine</p>
-                <p className="mt-0.5 truncate text-xs font-semibold text-slate-500">Hello, {userName}</p>
-              </div>
-            </TransitionLink>
+    <>
+      <aside className="inventory-sidebar fixed inset-y-0 left-0 z-40 hidden w-[244px] flex-col px-[14px] lg:flex">
+        <div className="sidebar-brand">
+          <div className="brand-mark">D</div>
+          <div className="min-w-0">
+            <strong className="block truncate text-[15px]">DailyRoutine</strong>
+            <span className="block truncate text-xs font-bold text-slate-500">{userName}</span>
           </div>
+        </div>
 
-          <nav className="ml-3 flex items-center gap-2 overflow-x-auto lg:ml-0 lg:mt-8 lg:flex-col lg:items-stretch lg:overflow-visible">
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          <div className="mb-4">
+            <div className="sidebar-section-label">Workspace</div>
+            <div className="space-y-1.5">
             {navItems.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
               const Icon = item.icon;
@@ -47,37 +45,50 @@ export function TopNav({ userName }: { userName: string }) {
                 <TransitionLink
                   key={item.href}
                   className={cn(
-                    "inline-flex min-w-fit items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-extrabold transition duration-200 lg:min-w-0",
-                    isActive
-                      ? "bg-[var(--app-primary)] text-white shadow-lift"
-                      : "text-slate-600 hover:bg-white hover:text-[var(--app-primary)]"
+                    "sidebar-link",
+                    isActive && "active"
                   )}
                   href={item.href}
                   prefetch
                 >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.label}</span>
+                  <span className="sidebar-link-icon"><Icon className="h-[18px] w-[18px]" /></span>
+                  <span className="truncate">{item.label}</span>
                 </TransitionLink>
               );
             })}
-          </nav>
-
-          <div className="ml-auto flex items-center gap-2 lg:ml-0 lg:mt-auto lg:flex-col lg:items-stretch">
-            <div className="hidden rounded-lg border border-[var(--app-line)] bg-white/70 p-3 text-xs text-slate-500 lg:block">
-              <div className="mb-2 flex items-center gap-2 font-black text-[var(--app-text)]">
-                <PanelLeftClose className="h-4 w-4 text-[var(--app-primary)]" />
-                Workspace
-              </div>
-              Tasks, checklist, and analytics stay available offline after first load.
-            </div>
-            <div className="flex items-center gap-2 lg:w-full">
-              <AppearanceMenu />
-              <LogoutButton />
             </div>
           </div>
+        </nav>
+
+        <div className="border-t border-[#dbe7ef] px-3 py-4">
+          <LogoutButton />
         </div>
-      </div>
-      <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t border-[var(--app-line)] bg-white px-2 py-2 shadow-[0_-14px_34px_rgba(15,23,42,0.08)] lg:hidden">
+      </aside>
+
+      <header className="topbar sticky top-0 z-30 flex h-16 items-center justify-between px-4 lg:ml-[244px] lg:px-6">
+        <div className="flex items-center gap-3">
+          <div className="mobile-top-title grid grid-cols-[auto_minmax(0,1fr)] gap-x-2 leading-none lg:hidden">
+            <div className="brand-mark !h-9 !w-9 text-sm">D</div>
+            <strong className="text-sm font-black text-slate-950">DailyRoutine</strong>
+            <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Planner</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <AppearanceMenu />
+          <TransitionLink className="icon-button" href="/settings" aria-label="Open settings">
+            <Bell className="h-[18px] w-[18px]" />
+          </TransitionLink>
+          <div className="hidden lg:block">
+            <LogoutButton compact />
+          </div>
+          <div className="lg:hidden">
+            <LogoutButton compact iconOnly />
+          </div>
+        </div>
+      </header>
+
+      <nav className="mobile-bottom-nav fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 gap-1 border-t border-[#dbe7ef] bg-white px-2 py-2 shadow-[0_-10px_28px_rgba(15,23,42,0.12)] lg:hidden">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -96,6 +107,6 @@ export function TopNav({ userName }: { userName: string }) {
           );
         })}
       </nav>
-    </header>
+    </>
   );
 }

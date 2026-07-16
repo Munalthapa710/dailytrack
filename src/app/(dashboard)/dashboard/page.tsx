@@ -15,10 +15,11 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <section className="panel flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <section className="page-header">
         <div>
           <p className="eyebrow">Quick Actions</p>
-          <h1 className="title-display mt-2 text-3xl">Plan and act from one place</h1>
+          <h1>Plan and act from one place</h1>
+          <p>Track today&apos;s work, completion, and upcoming task blocks.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <TaskFormDialog mode="create" />

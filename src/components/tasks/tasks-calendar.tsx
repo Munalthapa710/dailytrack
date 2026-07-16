@@ -16,12 +16,12 @@ export function TasksCalendar({ tasks }: { tasks: Task[] }) {
   const days = Array.from({ length: 35 }, (_, index) => addDays(first, index));
 
   return (
-    <section className="panel overflow-hidden">
-      <div className="border-b border-[var(--app-line)] bg-slate-50 px-5 py-4">
+    <section className="page-panel overflow-hidden p-0">
+      <div className="border-b border-slate-200 bg-[var(--app-primary-soft)] px-5 py-4">
         <p className="eyebrow">Calendar</p>
         <h2 className="mt-1 text-xl font-black text-[var(--app-text)]">{format(today, "MMMM yyyy")}</h2>
       </div>
-      <div className="grid grid-cols-7 border-b border-[var(--app-line)] bg-slate-50 text-center text-xs font-black uppercase tracking-[0.12em] text-slate-500">
+      <div className="grid grid-cols-7 border-b border-slate-200 bg-slate-50 text-center text-xs font-black uppercase tracking-[0.12em] text-slate-500">
         {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
           <div className="border-r border-[var(--app-line)] px-2 py-3 last:border-r-0" key={day}>
             {day}

@@ -9,7 +9,7 @@ export type AppearanceSettings = {
 };
 
 export const defaultAppearance: AppearanceSettings = {
-  primaryColor: "#0f766e",
+  primaryColor: "#0891b2",
   backgroundColor: "#f6f8fc",
   textColor: "#0f172a",
   sidebarColor: "#edf7fb",

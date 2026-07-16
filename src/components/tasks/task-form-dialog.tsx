@@ -97,12 +97,12 @@ export function TaskFormDialog({ mode, initialValues, onTaskSaved }: TaskFormDia
   }
 
   const dialog = open ? (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(17,30,38,0.38)] p-4 backdrop-blur-sm sm:items-center">
-      <div className="max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-y-auto rounded-lg border border-[var(--app-line)] bg-white p-6 shadow-[0_28px_80px_rgba(20,33,52,0.24)]">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(15,23,42,0.56)] p-4 backdrop-blur-sm sm:items-center">
+      <div className="max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 shadow-[0_30px_70px_rgba(15,23,42,0.28)]">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="eyebrow">Task editor</p>
-            <h3 className="title-display mt-3 text-3xl">{mode === "create" ? "Create task" : "Edit task"}</h3>
+            <h3 className="mt-1 text-xl font-black text-slate-950">{mode === "create" ? "Create task" : "Edit task"}</h3>
           </div>
           <button
             className="rounded-lg bg-white px-4 py-2 text-sm font-bold text-slate-500 ring-1 ring-[var(--app-line)] transition hover:text-[var(--app-primary)]"
