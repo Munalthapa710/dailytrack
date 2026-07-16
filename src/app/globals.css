@@ -32,6 +32,17 @@
   --accent-soft: color-mix(in srgb, var(--app-primary) 12%, white);
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --app-surface: #111827;
+  --app-surface-soft: #1f2937;
+  --app-line: #334155;
+  --app-muted: #94a3b8;
+  --line-strong: #475569;
+  --danger: #fb7185;
+  --shadow-panel: 0 22px 60px rgba(0, 0, 0, 0.28);
+}
+
 @keyframes page-enter {
   0% {
     opacity: 0;
@@ -81,6 +92,23 @@ a {
   border-radius: 8px;
   background: var(--surface-strong);
   box-shadow: var(--shadow-panel);
+}
+
+:root[data-theme="dark"] .bg-white,
+:root[data-theme="dark"] .bg-white\/70,
+:root[data-theme="dark"] .bg-white\/90 {
+  background-color: var(--app-surface) !important;
+}
+
+:root[data-theme="dark"] .bg-slate-50,
+:root[data-theme="dark"] .bg-slate-100 {
+  background-color: var(--app-surface-soft) !important;
+}
+
+:root[data-theme="dark"] .text-slate-500,
+:root[data-theme="dark"] .text-slate-600,
+:root[data-theme="dark"] .muted-copy {
+  color: var(--app-muted) !important;
 }
 
 .panel-soft {

@@ -80,6 +80,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ ta
           ...(data.startTime ? { startTime: data.startTime } : {}),
           ...(data.endTime ? { endTime: data.endTime } : {}),
           ...(data.isDaily !== undefined ? { isDaily: data.isDaily } : {}),
+          ...(data.priority ? { priority: data.priority } : {}),
+          ...(data.label !== undefined ? { label: data.label || null } : {}),
+          ...(data.reminderMinutes !== undefined ? { reminderMinutes: data.reminderMinutes ?? null } : {}),
           status: finalStatus,
           completedAt: finalStatus === "completed" ? new Date() : null
         }

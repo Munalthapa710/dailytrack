@@ -4,6 +4,7 @@ import { NavigationProvider } from "@/components/navigation/navigation-provider"
 import { OfflineStatus } from "@/components/pwa/offline-status";
 import { PWAInstallPrompt } from "@/components/pwa/pwa-install-prompt";
 import { PWARegister } from "@/components/pwa/pwa-register";
+import { ReminderCenter } from "@/components/pwa/reminder-center";
 import { AppearanceProvider } from "@/components/theme/appearance-provider";
 import { ToastProvider } from "@/components/ui/toast-provider";
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <ToastProvider>
               {children}
               <PWARegister />
+              <ReminderCenter />
               <PWAInstallPrompt />
               <OfflineStatus />
             </ToastProvider>

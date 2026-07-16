@@ -1,6 +1,7 @@
 import { AnalyticsCharts } from "@/components/dashboard/analytics-charts";
 import { DailyFocusPanel } from "@/components/dashboard/daily-focus-panel";
 import { StatCard } from "@/components/dashboard/stat-card";
+import { TaskFormDialog } from "@/components/tasks/task-form-dialog";
 import { requireSessionUser } from "@/lib/auth";
 import { getAnalyticsForUser, getDailyBriefingForUser, syncMissedTasksForUser } from "@/lib/task-service";
 
@@ -14,6 +15,16 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <section className="panel flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="eyebrow">Quick Actions</p>
+          <h1 className="title-display mt-2 text-3xl">Plan and act from one place</h1>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <TaskFormDialog mode="create" />
+        </div>
+      </section>
+
       <DailyFocusPanel briefing={briefing} />
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">

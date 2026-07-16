@@ -1,4 +1,5 @@
 export type TaskStatus = "pending" | "completed" | "missed";
+export type TaskPriority = "low" | "medium" | "high" | "urgent";
 
 export type FilterKey =
   | "today"
@@ -24,6 +25,9 @@ export interface DailyBriefingItem {
   endTime: string;
   status: TaskStatus;
   isDaily: boolean;
+  priority: TaskPriority;
+  label: string | null;
+  reminderMinutes: number | null;
   phase: "done" | "now" | "up-next" | "later" | "missed";
 }
 

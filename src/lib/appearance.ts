@@ -5,13 +5,23 @@ export type AppearanceSettings = {
   backgroundColor: string;
   textColor: string;
   sidebarColor: string;
+  mode: "light" | "dark";
 };
 
 export const defaultAppearance: AppearanceSettings = {
   primaryColor: "#0f766e",
   backgroundColor: "#f6f8fc",
   textColor: "#0f172a",
-  sidebarColor: "#edf7fb"
+  sidebarColor: "#edf7fb",
+  mode: "light"
+};
+
+export const darkAppearance: AppearanceSettings = {
+  primaryColor: "#14b8a6",
+  backgroundColor: "#0f172a",
+  textColor: "#e5eef8",
+  sidebarColor: "#111827",
+  mode: "dark"
 };
 
 const storageKey = "dailytrack.appearance";
@@ -33,7 +43,8 @@ export function loadAppearance(): AppearanceSettings {
       primaryColor: sanitizeColor(parsed.primaryColor, defaultAppearance.primaryColor),
       backgroundColor: sanitizeColor(parsed.backgroundColor, defaultAppearance.backgroundColor),
       textColor: sanitizeColor(parsed.textColor, defaultAppearance.textColor),
-      sidebarColor: sanitizeColor(parsed.sidebarColor, defaultAppearance.sidebarColor)
+      sidebarColor: sanitizeColor(parsed.sidebarColor, defaultAppearance.sidebarColor),
+      mode: parsed.mode === "dark" ? "dark" : "light"
     };
   } catch {
     return defaultAppearance;
@@ -42,6 +53,7 @@ export function loadAppearance(): AppearanceSettings {
 
 export function applyAppearance(settings: AppearanceSettings) {
   const root = document.documentElement;
+  root.dataset.theme = settings.mode;
   root.style.setProperty("--app-primary", settings.primaryColor);
   root.style.setProperty("--app-primary-strong", settings.primaryColor);
   root.style.setProperty("--app-background", settings.backgroundColor);

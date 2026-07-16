@@ -2,7 +2,7 @@
 
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
-import { CalendarPlus2, CheckSquare, LayoutDashboard, PanelLeftClose } from "lucide-react";
+import { CalendarPlus2, CheckSquare, LayoutDashboard, PanelLeftClose, Settings } from "lucide-react";
 import { LogoutButton } from "@/components/layout/logout-button";
 import { TransitionLink } from "@/components/navigation/transition-link";
 import { AppearanceMenu } from "@/components/theme/appearance-menu";
@@ -15,7 +15,8 @@ const navItems: Array<{
 }> = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/tasks", label: "Add Tasks", icon: CalendarPlus2 },
-  { href: "/checklist", label: "Checklist", icon: CheckSquare }
+  { href: "/checklist", label: "Checklist", icon: CheckSquare },
+  { href: "/settings", label: "Settings", icon: Settings }
 ];
 
 export function TopNav({ userName }: { userName: string }) {
@@ -76,6 +77,25 @@ export function TopNav({ userName }: { userName: string }) {
           </div>
         </div>
       </div>
+      <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t border-[var(--app-line)] bg-white px-2 py-2 shadow-[0_-14px_34px_rgba(15,23,42,0.08)] lg:hidden">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          return (
+            <TransitionLink
+              key={item.href}
+              className={cn(
+                "flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg text-[11px] font-black",
+                isActive ? "bg-[var(--app-primary)] text-white" : "text-slate-500"
+              )}
+              href={item.href}
+            >
+              <Icon className="h-4 w-4" />
+              <span>{item.label === "Add Tasks" ? "Tasks" : item.label}</span>
+            </TransitionLink>
+          );
+        })}
+      </nav>
     </header>
   );
 }

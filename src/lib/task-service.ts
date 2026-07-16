@@ -197,6 +197,9 @@ export async function getDailyBriefingForUser(userId: string, options: TaskQuery
       endTime: task.endTime,
       status,
       isDaily: task.isDaily,
+      priority: task.priority,
+      label: task.label,
+      reminderMinutes: task.reminderMinutes,
       phase
     };
   });

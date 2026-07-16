@@ -1,9 +1,10 @@
 "use client";
 
-import { Check, Paintbrush, RotateCcw, Save } from "lucide-react";
+import { Check, Moon, Paintbrush, RotateCcw, Save, Sun } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
   defaultAppearance,
+  darkAppearance,
   loadAppearance,
   resetAppearance,
   saveAppearance,
@@ -41,7 +42,13 @@ export function AppearanceMenu() {
   }, []);
 
   function update(key: keyof AppearanceSettings, value: string) {
-    const next = { ...settings, [key]: value };
+    const next = { ...settings, [key]: value } as AppearanceSettings;
+    setSettings(next);
+    saveAppearance(next);
+  }
+
+  function setMode(mode: AppearanceSettings["mode"]) {
+    const next = mode === "dark" ? { ...darkAppearance, primaryColor: settings.primaryColor } : { ...defaultAppearance, primaryColor: settings.primaryColor };
     setSettings(next);
     saveAppearance(next);
   }
@@ -98,6 +105,25 @@ export function AppearanceMenu() {
                 {settings.primaryColor === color ? <Check className="h-4 w-4 text-white" /> : null}
               </button>
             ))}
+          </div>
+
+          <div className="mb-4 grid grid-cols-2 gap-2">
+            <button
+              className={cn("inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--app-line)] px-3 py-2 text-sm font-black", settings.mode === "light" && "bg-[var(--app-primary)] text-white")}
+              onClick={() => setMode("light")}
+              type="button"
+            >
+              <Sun className="h-4 w-4" />
+              Light
+            </button>
+            <button
+              className={cn("inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--app-line)] px-3 py-2 text-sm font-black", settings.mode === "dark" && "bg-[var(--app-primary)] text-white")}
+              onClick={() => setMode("dark")}
+              type="button"
+            >
+              <Moon className="h-4 w-4" />
+              Dark
+            </button>
           </div>
 
           <div className="space-y-3">

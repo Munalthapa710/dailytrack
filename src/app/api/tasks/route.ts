@@ -62,6 +62,9 @@ export async function POST(request: Request) {
           startTime: data.startTime,
           endTime: data.endTime,
           isDaily: data.isDaily ?? false,
+          priority: data.priority ?? "medium",
+          label: data.label || null,
+          reminderMinutes: data.reminderMinutes ?? null,
           status,
           completedAt: status === "completed" ? new Date() : null,
           userId: user.id

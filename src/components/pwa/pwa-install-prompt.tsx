@@ -21,10 +21,12 @@ export function PWAInstallPrompt() {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
   const [dismissed, setDismissed] = useState(false);
   const [installed, setInstalled] = useState(false);
+  const [isIos, setIsIos] = useState(false);
 
   useEffect(() => {
     setDismissed(localStorage.getItem(dismissedKey) === "true");
     setInstalled(isStandalone());
+    setIsIos(/iphone|ipad|ipod/i.test(navigator.userAgent));
 
     function onBeforeInstallPrompt(event: Event) {
       event.preventDefault();
@@ -61,7 +63,7 @@ export function PWAInstallPrompt() {
     dismiss();
   }
 
-  if (!promptEvent || dismissed || installed) {
+  if ((!promptEvent && !isIos) || dismissed || installed) {
     return null;
   }
 
@@ -71,10 +73,14 @@ export function PWAInstallPrompt() {
         <strong>Install DailyRoutine</strong>
         <span>Open your planner faster from this device.</span>
       </div>
-      <button className="pwa-install-action" onClick={install} type="button">
-        <Download size={16} />
-        Install
-      </button>
+      {promptEvent ? (
+        <button className="pwa-install-action" onClick={install} type="button">
+          <Download size={16} />
+          Install
+        </button>
+      ) : (
+        <span className="max-w-[150px] text-xs font-bold text-slate-500">Use Share, then Add to Home Screen.</span>
+      )}
       <button aria-label="Dismiss install prompt" className="pwa-install-close" onClick={dismiss} type="button">
         <X size={16} />
       </button>

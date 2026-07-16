@@ -1,6 +1,6 @@
 "use client";
 
-import type { Task, TaskStatus } from "@prisma/client";
+import type { Task, TaskPriority, TaskStatus } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { createPortal } from "react-dom";
@@ -16,6 +16,9 @@ interface TaskFormValues {
   startTime: string;
   endTime: string;
   isDaily: boolean;
+  priority: TaskPriority;
+  label?: string;
+  reminderMinutes?: number | null;
 }
 
 interface TaskConflict {
@@ -44,6 +47,9 @@ export function TaskFormDialog({ mode, initialValues, onTaskSaved }: TaskFormDia
     startTime: "",
     endTime: "",
     isDaily: false,
+    priority: "medium",
+    label: "",
+    reminderMinutes: null,
     ...initialValues
   };
   const {
@@ -92,14 +98,14 @@ export function TaskFormDialog({ mode, initialValues, onTaskSaved }: TaskFormDia
 
   const dialog = open ? (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(17,30,38,0.38)] p-4 backdrop-blur-sm sm:items-center">
-      <div className="w-full max-w-2xl rounded-[32px] border border-[rgba(23,59,66,0.12)] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(249,241,228,0.94))] p-6 shadow-[0_28px_80px_rgba(20,33,52,0.24)]">
+      <div className="max-h-[calc(100vh-2rem)] w-full max-w-2xl overflow-y-auto rounded-lg border border-[var(--app-line)] bg-white p-6 shadow-[0_28px_80px_rgba(20,33,52,0.24)]">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="eyebrow">Task editor</p>
-            <h3 className="title-display mt-3 text-4xl">{mode === "create" ? "Create task" : "Edit task"}</h3>
+            <h3 className="title-display mt-3 text-3xl">{mode === "create" ? "Create task" : "Edit task"}</h3>
           </div>
           <button
-            className="rounded-2xl bg-[rgba(255,252,247,0.78)] px-4 py-2 text-sm font-medium text-slate-500 ring-1 ring-[rgba(23,59,66,0.12)] transition hover:bg-white hover:text-primary"
+            className="rounded-lg bg-white px-4 py-2 text-sm font-bold text-slate-500 ring-1 ring-[var(--app-line)] transition hover:text-[var(--app-primary)]"
             onClick={() => {
               setConflicts([]);
               setOpen(false);
@@ -132,6 +138,39 @@ export function TaskFormDialog({ mode, initialValues, onTaskSaved }: TaskFormDia
           <div className="space-y-2">
             <label className="block text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Description</label>
             <Textarea placeholder="Add notes, outcomes, or context for this task." {...register("description")} />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Priority</label>
+              <select
+                className="h-12 w-full rounded-lg border border-[var(--app-line)] bg-white px-3 text-sm font-bold text-[var(--app-text)] outline-none focus:border-[var(--app-primary)]"
+                {...register("priority")}
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Label</label>
+              <Input className="h-12" placeholder="Work, health, study" {...register("label")} />
+            </div>
+            <div className="space-y-2">
+              <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Reminder</label>
+              <select
+                className="h-12 w-full rounded-lg border border-[var(--app-line)] bg-white px-3 text-sm font-bold text-[var(--app-text)] outline-none focus:border-[var(--app-primary)]"
+                {...register("reminderMinutes")}
+              >
+                <option value="">Off</option>
+                <option value="0">At start</option>
+                <option value="5">5 min before</option>
+                <option value="10">10 min before</option>
+                <option value="15">15 min before</option>
+                <option value="30">30 min before</option>
+                <option value="60">1 hour before</option>
+              </select>
+            </div>
           </div>
           <div className="inset-panel p-4">
             <div className="mb-4">

@@ -6,6 +6,13 @@ import { startTransition, useEffect, useState } from "react";
 import { hydrateTask, type TaskPayload } from "@/lib/task-client";
 import { useToast } from "@/components/ui/toast-provider";
 
+const priorityClasses = {
+  low: "bg-slate-100 text-slate-600",
+  medium: "bg-[color-mix(in_srgb,var(--app-primary)_12%,white)] text-[var(--app-primary)]",
+  high: "bg-amber-50 text-amber-700",
+  urgent: "bg-rose-50 text-danger"
+};
+
 export function Checklist({ tasks }: { tasks: Task[] }) {
   const [items, setItems] = useState(tasks);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -76,9 +83,11 @@ export function Checklist({ tasks }: { tasks: Task[] }) {
           />
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-base font-semibold text-ink">{task.title}</h3>
-              <span className="rounded-full bg-[rgba(23,59,66,0.08)] px-3 py-1 text-xs font-semibold capitalize text-primary">{task.status}</span>
-              {task.isDaily ? <span className="rounded-full bg-[rgba(124,199,238,0.16)] px-3 py-1 text-xs font-semibold text-[#2b7091]">daily reset</span> : null}
+              <h3 className="text-base font-extrabold text-[var(--app-text)]">{task.title}</h3>
+              <span className="rounded-md bg-[color-mix(in_srgb,var(--app-primary)_12%,white)] px-3 py-1 text-xs font-extrabold capitalize text-[var(--app-primary)]">{task.status}</span>
+              <span className={`rounded-md px-3 py-1 text-xs font-extrabold capitalize ${priorityClasses[task.priority]}`}>{task.priority}</span>
+              {task.label ? <span className="rounded-md bg-slate-100 px-3 py-1 text-xs font-extrabold text-slate-600">{task.label}</span> : null}
+              {task.isDaily ? <span className="rounded-md bg-indigo-50 px-3 py-1 text-xs font-extrabold text-indigo-700">daily reset</span> : null}
             </div>
             {task.description ? <p className="mt-2 text-sm text-slate-500">{task.description}</p> : null}
             <p className="mt-3 text-sm text-slate-600">

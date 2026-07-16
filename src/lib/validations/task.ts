@@ -7,6 +7,12 @@ const baseTaskSchema = z.object({
   startTime: z.string().min(1, "Start time is required."),
   endTime: z.string().min(1, "End time is required."),
   isDaily: z.boolean().optional(),
+  priority: z.enum(["low", "medium", "high", "urgent"]).optional(),
+  label: z.string().max(32, "Label is too long.").optional().or(z.literal("")),
+  reminderMinutes: z.preprocess(
+    (value) => (value === "" || value === undefined ? null : value),
+    z.coerce.number().int().min(0).max(1440).nullable()
+  ).optional(),
   status: z.enum(["pending", "completed", "missed"]).optional()
 });
 

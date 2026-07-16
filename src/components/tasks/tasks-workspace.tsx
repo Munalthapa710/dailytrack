@@ -7,6 +7,7 @@ import { sortTasksBySchedule, upsertTaskInList } from "@/lib/task-client";
 import { EmptyState } from "@/components/ui/empty-state";
 import { FilterBar } from "@/components/tasks/filter-bar";
 import { TaskFormDialog } from "@/components/tasks/task-form-dialog";
+import { TasksCalendar } from "@/components/tasks/tasks-calendar";
 import { TaskList } from "@/components/tasks/task-list";
 import { useToast } from "@/components/ui/toast-provider";
 
@@ -60,6 +61,8 @@ export function TasksWorkspace({ initialTasks, filter }: { initialTasks: Task[];
       </div>
 
       <FilterBar />
+
+      <TasksCalendar tasks={tasks} />
 
       {tasks.length === 0 ? (
         <EmptyState title="No tasks found" description="Create a task or switch filters to see your scheduled work." />
