@@ -6,7 +6,7 @@ services:
     region: oregon
     autoDeploy: true
     buildCommand: npm ci --include=dev && npm run build:deploy
-    startCommand: npm run start
+    startCommand: npm run start:deploy
     healthCheckPath: /login
     envVars:
       - key: NODE_VERSION
