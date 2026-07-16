@@ -7,7 +7,7 @@
     "build": "next build",
     "build:local": "npm run db:prepare:local && next build",
     "build:deploy": "npm run prisma:generate:deploy && next build",
-    "start:deploy": "npm run prisma:db:push:deploy && next start",
+    "start:deploy": "npm run prisma:db:push:deploy || echo \"Database sync failed; starting web server anyway.\" && next start",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
