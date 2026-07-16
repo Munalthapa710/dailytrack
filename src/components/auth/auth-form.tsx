@@ -37,7 +37,11 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
 
     const payload = await response.json();
     if (!response.ok) {
-      showToast(payload.error ?? "Something went wrong.");
+      showToast(
+        response.status === 503
+          ? "Database is unavailable. Please check Render PostgreSQL."
+          : payload.error ?? "Something went wrong."
+      );
       return;
     }
 

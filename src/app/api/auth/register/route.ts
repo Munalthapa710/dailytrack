@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { databaseUnavailableResponse, isDatabaseConnectionError } from "@/lib/api-errors";
 import { hashPassword } from "@/lib/auth";
 import { withDbTimeout } from "@/lib/db-guard";
 import { prisma } from "@/lib/prisma";
@@ -33,6 +34,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Registration successful. You can now sign in." }, { status: 201 });
   } catch (error) {
     console.error("Register failed", error);
+    if (isDatabaseConnectionError(error)) {
+      return databaseUnavailableResponse();
+    }
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Unable to register right now." },
       { status: 400 }
