@@ -8,6 +8,8 @@ import { prisma } from "@/lib/prisma";
 import { AUTH_COOKIE } from "@/lib/constants";
 import { decodeSessionToken, SessionUser, signSessionToken } from "@/lib/session-token";
 
+type CurrentUser = Pick<User, "id" | "name" | "email" | "createdAt">;
+
 function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
@@ -62,7 +64,7 @@ export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
   }
 });
 
-export async function getCurrentUser() {
+export async function getCurrentUser(): Promise<CurrentUser | null> {
   const sessionUser = await getSessionUser();
   if (!sessionUser) {
     return null;
@@ -80,7 +82,7 @@ export async function getCurrentUser() {
   }
 }
 
-export async function requireUser() {
+export async function requireUser(): Promise<CurrentUser> {
   const user = await getCurrentUser();
   if (!user) {
     redirect("/login");
@@ -88,7 +90,7 @@ export async function requireUser() {
   return user;
 }
 
-export async function requireSessionUser() {
+export async function requireSessionUser(): Promise<SessionUser> {
   const user = await getSessionUser();
   if (!user) {
     redirect("/login");

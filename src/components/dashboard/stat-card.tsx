@@ -13,34 +13,34 @@ export function StatCard({
 }) {
   const toneClasses =
     tone === "success"
-      ? "bg-[rgba(23,59,66,0.10)] text-primary"
+      ? "bg-[color-mix(in_srgb,var(--app-primary)_12%,white)] text-[var(--app-primary)]"
       : tone === "warning"
-        ? "bg-[rgba(124,199,238,0.16)] text-[#2b7091]"
+        ? "bg-[rgba(83,74,183,0.10)] text-[var(--app-accent)]"
         : tone === "danger"
-          ? "bg-[rgba(190,91,75,0.12)] text-danger"
-          : "bg-[rgba(29,36,51,0.08)] text-ink";
+          ? "bg-rose-50 text-danger"
+          : "bg-slate-100 text-[var(--app-text)]";
 
   return (
     <div className="panel-soft overflow-hidden p-5">
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm font-medium text-slate-500">{label}</p>
-        <div className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] ${toneClasses}`}>
+        <div className={`rounded-md px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] ${toneClasses}`}>
           {tone}
         </div>
       </div>
-      <p className="metric-display mt-5 text-5xl text-ink">
+      <p className="metric-display mt-5 text-4xl text-[var(--app-text)]">
         {isPercentage ? formatPercentage(value) : value}
       </p>
-      <div className="mt-5 h-2 overflow-hidden rounded-full bg-[rgba(23,59,66,0.08)]">
+      <div className="mt-5 h-2 overflow-hidden rounded-full bg-slate-100">
         <div
           className={`h-full rounded-full ${
             tone === "success"
-              ? "bg-primary"
+              ? "bg-[var(--app-primary)]"
               : tone === "warning"
-                ? "bg-accent"
+                ? "bg-[var(--app-accent)]"
                 : tone === "danger"
                   ? "bg-danger"
-                  : "bg-[rgba(29,36,51,0.24)]"
+                  : "bg-slate-300"
           }`}
           style={{ width: `${Math.min(100, Math.max(18, value))}%` }}
         />

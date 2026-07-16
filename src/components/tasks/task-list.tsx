@@ -18,7 +18,7 @@ export function TaskList({
 }) {
   return (
     <div className="panel overflow-hidden">
-      <div className="hidden grid-cols-[1.5fr_0.85fr_0.55fr_0.55fr_0.8fr_1fr] gap-4 border-b border-[rgba(23,59,66,0.1)] px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 sm:grid">
+      <div className="hidden grid-cols-[1.5fr_0.85fr_0.55fr_0.55fr_0.8fr_1fr] gap-4 border-b border-[var(--app-line)] bg-slate-50 px-6 py-4 text-xs font-black uppercase tracking-[0.12em] text-slate-500 sm:grid">
         <span>Task</span>
         <span>Date</span>
         <span>Start</span>
@@ -26,14 +26,14 @@ export function TaskList({
         <span>Type</span>
         <span>Actions</span>
       </div>
-      <div className="divide-y divide-[rgba(23,59,66,0.08)]">
+      <div className="divide-y divide-[var(--app-line)]">
         {tasks.map((task) => (
           <div
             key={task.id}
-            className="grid gap-4 px-5 py-5 transition hover:bg-[rgba(250,242,228,0.56)] sm:grid-cols-[1.5fr_0.85fr_0.55fr_0.55fr_0.8fr_1fr] sm:px-6"
+            className="grid gap-4 px-5 py-5 transition hover:bg-slate-50 sm:grid-cols-[1.5fr_0.85fr_0.55fr_0.55fr_0.8fr_1fr] sm:px-6"
           >
             <div>
-              <p className="font-semibold text-ink">{task.title}</p>
+              <p className="font-extrabold text-[var(--app-text)]">{task.title}</p>
               {task.description ? <p className="mt-1 text-sm text-slate-500">{task.description}</p> : null}
             </div>
             <div className="text-sm text-slate-600">{format(task.date, "MMM d, yyyy")}</div>
@@ -41,10 +41,10 @@ export function TaskList({
             <div className="text-sm text-slate-600">{task.endTime}</div>
             <div>
               <span
-                className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize ${
+                className={`inline-flex rounded-md px-3 py-1 text-xs font-extrabold capitalize ${
                   task.isDaily
-                    ? "bg-[rgba(124,199,238,0.16)] text-[#2b7091]"
-                    : "bg-[rgba(23,59,66,0.08)] text-primary"
+                    ? "bg-[rgba(83,74,183,0.10)] text-[var(--app-accent)]"
+                    : "bg-[color-mix(in_srgb,var(--app-primary)_12%,white)] text-[var(--app-primary)]"
                 }`}
               >
                 {task.isDaily ? "daily" : "scheduled"}

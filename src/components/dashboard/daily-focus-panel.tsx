@@ -47,12 +47,12 @@ export function DailyFocusPanel({ briefing }: { briefing: DailyBriefing }) {
 
   return (
     <section className="grid gap-5 xl:grid-cols-[1.2fr_0.9fr]">
-      <div className="overflow-hidden rounded-[28px] bg-[radial-gradient(circle_at_top_left,rgba(188,232,249,0.24),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.12),transparent_28%),linear-gradient(135deg,#173B42_0%,#214C53_52%,#7CC7EE_185%)] p-6 text-white shadow-[0_28px_70px_rgba(23,59,66,0.26)] sm:p-7">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[rgba(216,240,251,0.92)]">Today Focus</p>
+      <div className="brand-gradient overflow-hidden rounded-lg p-6 text-white shadow-[0_28px_70px_rgba(15,23,42,0.20)] sm:p-7">
+        <p className="text-xs font-black uppercase tracking-[0.16em] text-white/80">Today Focus</p>
         <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <h2 className="title-display text-4xl leading-tight text-[#fffaf2] sm:text-5xl">{briefing.dateLabel}</h2>
-            <p className="mt-3 max-w-xl text-sm text-[#e2ece8] sm:text-base">
+            <h2 className="title-display text-3xl leading-tight text-white sm:text-4xl">{briefing.dateLabel}</h2>
+            <p className="mt-3 max-w-xl text-sm text-white/80 sm:text-base">
               {briefing.currentTask
                 ? `You are currently inside ${briefing.currentTask.title}. Keep the streak moving.`
                 : briefing.nextTask
@@ -61,40 +61,40 @@ export function DailyFocusPanel({ briefing }: { briefing: DailyBriefing }) {
             </p>
           </div>
 
-          <div className="rounded-[24px] border border-white/15 bg-[rgba(255,255,255,0.12)] px-5 py-4 backdrop-blur-md">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[rgba(216,240,251,0.92)]">Completion</p>
-            <p className="metric-display mt-2 text-5xl text-[#fffaf2]">{briefing.completionRate}%</p>
-            <p className="mt-1 text-sm text-[#dfe9e3]">
+          <div className="rounded-lg border border-white/15 bg-white/10 px-5 py-4">
+            <p className="text-xs font-black uppercase tracking-[0.14em] text-white/80">Completion</p>
+            <p className="metric-display mt-2 text-4xl text-white">{briefing.completionRate}%</p>
+            <p className="mt-1 text-sm text-white/75">
               {briefing.completedTasks} of {briefing.totalTasks} tasks finished
             </p>
           </div>
         </div>
 
         <div className="mt-6 h-3 overflow-hidden rounded-full bg-white/15">
-          <div className="h-full rounded-full bg-[linear-gradient(90deg,#eef9ff_0%,#bfe6f8_100%)]" style={{ width: progressWidth }} />
+          <div className="h-full rounded-full bg-white" style={{ width: progressWidth }} />
         </div>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-[24px] border border-white/12 bg-[rgba(255,255,255,0.1)] px-4 py-4 backdrop-blur-md">
-            <div className="flex items-center gap-2 text-[rgba(216,240,251,0.92)]">
+          <div className="rounded-lg border border-white/12 bg-white/10 px-4 py-4">
+            <div className="flex items-center gap-2 text-white/80">
               <Clock3 className="h-4 w-4" />
-              <span className="text-xs font-semibold uppercase tracking-[0.18em]">Planned Time</span>
+              <span className="text-xs font-black uppercase tracking-[0.14em]">Planned Time</span>
             </div>
-            <p className="metric-display mt-3 text-4xl text-[#fffaf2]">{formatDuration(briefing.scheduledMinutes)}</p>
+            <p className="metric-display mt-3 text-3xl text-white">{formatDuration(briefing.scheduledMinutes)}</p>
           </div>
-          <div className="rounded-[24px] border border-white/12 bg-[rgba(255,255,255,0.1)] px-4 py-4 backdrop-blur-md">
-            <div className="flex items-center gap-2 text-[rgba(216,240,251,0.92)]">
+          <div className="rounded-lg border border-white/12 bg-white/10 px-4 py-4">
+            <div className="flex items-center gap-2 text-white/80">
               <AlarmClockCheck className="h-4 w-4" />
-              <span className="text-xs font-semibold uppercase tracking-[0.18em]">Finished Time</span>
+              <span className="text-xs font-black uppercase tracking-[0.14em]">Finished Time</span>
             </div>
-            <p className="metric-display mt-3 text-4xl text-[#fffaf2]">{formatDuration(briefing.completedMinutes)}</p>
+            <p className="metric-display mt-3 text-3xl text-white">{formatDuration(briefing.completedMinutes)}</p>
           </div>
-          <div className="rounded-[24px] border border-white/12 bg-[rgba(255,255,255,0.1)] px-4 py-4 backdrop-blur-md">
-            <div className="flex items-center gap-2 text-[rgba(216,240,251,0.92)]">
+          <div className="rounded-lg border border-white/12 bg-white/10 px-4 py-4">
+            <div className="flex items-center gap-2 text-white/80">
               <TimerReset className="h-4 w-4" />
-              <span className="text-xs font-semibold uppercase tracking-[0.18em]">Attention Needed</span>
+              <span className="text-xs font-black uppercase tracking-[0.14em]">Attention Needed</span>
             </div>
-            <p className="metric-display mt-3 text-4xl text-[#fffaf2]">{briefing.pendingTasks + briefing.missedTasks}</p>
+            <p className="metric-display mt-3 text-3xl text-white">{briefing.pendingTasks + briefing.missedTasks}</p>
           </div>
         </div>
       </div>
@@ -103,9 +103,9 @@ export function DailyFocusPanel({ briefing }: { briefing: DailyBriefing }) {
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="eyebrow">Agenda</p>
-            <h3 className="title-display mt-2 text-4xl">Timeline for today</h3>
+            <h3 className="title-display mt-2 text-2xl">Timeline for today</h3>
           </div>
-          <div className="rounded-full bg-[rgba(23,59,66,0.08)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          <div className="rounded-md bg-[color-mix(in_srgb,var(--app-primary)_12%,white)] px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-[var(--app-primary)]">
             {briefing.totalTasks} blocks
           </div>
         </div>
@@ -117,11 +117,11 @@ export function DailyFocusPanel({ briefing }: { briefing: DailyBriefing }) {
         ) : (
           <div className="mt-6 space-y-3">
             {briefing.items.map((item) => (
-              <div key={item.id} className="inset-panel px-4 py-4 transition hover:border-[rgba(23,59,66,0.16)] hover:bg-[rgba(255,252,247,0.98)]">
+              <div key={item.id} className="inset-panel px-4 py-4 transition hover:bg-white">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h4 className="text-base font-semibold text-ink">{item.title}</h4>
+                      <h4 className="text-base font-extrabold text-[var(--app-text)]">{item.title}</h4>
                       <span className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] ${getPillClasses(item.phase)}`}>
                         {item.phase === "up-next" ? "up next" : item.phase}
                       </span>

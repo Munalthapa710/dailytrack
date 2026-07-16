@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="DailyRoutine icon">
+  <rect width="512" height="512" rx="96" fill="#0f766e"/>
+  <path fill="#ffffff" d="M142 122h228c22 0 40 18 40 40v206c0 22-18 40-40 40H142c-22 0-40-18-40-40V162c0-22 18-40 40-40Zm0 92h228v-52H142v52Zm0 46v108h228V260H142Z"/>
+  <path fill="#7dd3fc" d="M176 292h48v48h-48zM246 292h90v18h-90zM246 326h66v18h-66z"/>
+  <path fill="#ffffff" d="M170 82h34v72h-34zM308 82h34v72h-34z"/>
+</svg>

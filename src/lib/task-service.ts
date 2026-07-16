@@ -120,7 +120,7 @@ function getFilterRange(filter: FilterKey, now: Date) {
   return null;
 }
 
-export async function getTasksForUser(userId: string, filter: FilterKey = "all", options: TaskQueryOptions = {}) {
+export async function getTasksForUser(userId: string, filter: FilterKey = "all", options: TaskQueryOptions = {}): Promise<Task[]> {
   if (!options.skipSync) {
     await syncMissedTasksForUser(userId);
   }
@@ -147,7 +147,7 @@ export async function getTasksForUser(userId: string, filter: FilterKey = "all",
   );
 }
 
-export async function getChecklistTasksForUser(userId: string, options: TaskQueryOptions = {}) {
+export async function getChecklistTasksForUser(userId: string, options: TaskQueryOptions = {}): Promise<Task[]> {
   if (!options.skipSync) {
     await syncMissedTasksForUser(userId);
   }

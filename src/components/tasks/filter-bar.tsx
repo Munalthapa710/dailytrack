@@ -43,7 +43,7 @@ export function FilterBar() {
           variant={active === filter.value ? "primary" : "ghost"}
           onClick={() => setFilter(filter.value)}
           type="button"
-          className="min-w-[104px]"
+          className="min-w-[98px]"
         >
           {filter.label}
         </Button>

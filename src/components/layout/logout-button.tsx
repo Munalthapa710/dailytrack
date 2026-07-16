@@ -24,7 +24,7 @@ export function LogoutButton() {
   }
 
   return (
-    <Button className="min-w-[112px]" variant="secondary" onClick={handleLogout} disabled={loading}>
+    <Button className="min-w-[104px] lg:flex-1" variant="secondary" onClick={handleLogout} disabled={loading}>
       {loading ? "Signing out..." : "Logout"}
     </Button>
   );
